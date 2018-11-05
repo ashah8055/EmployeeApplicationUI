@@ -8,54 +8,36 @@ import { loginUser, getBusinessUsersList } from "../../redux/actions/auth";
 class Login extends Component {
     
 
-    // constructor(props) {
-    //     super(props);
-    //     // defining the state to the component
-    //     this.state = {            
-    //         data:{
-    //             email: 'testbiz@rsrit.com',
-    //             password: '123456',
-    //             isBusiness:true
-    //         },            
-    //         loading: false,
-    //         errors: {}
-    //   }
-    // }
+    constructor(props) {
+        super(props);
+        // defining the state to the component
+        this.state = {            
+            data:{
+                email: 'testbiz@rsrit.com',
+                password: '123456',
+                isBusiness:true
+            },            
+            loading: false,
+            errors: {}
+      }
+    }
 
-    // componentDidMount(){
-    //     //this.props.dispatch(getBusinessUsersList());
-    // }
+    componentDidMount(){
 
-    // static getDerivedStateFromProps(props, state) {
+    }
 
-    //     console.log(props.result);
+    static getDerivedStateFromProps(props, state) {
 
-    //     if (props.isUserLoggedIn) {            
-    //         if(props.isBusiness){
-    //             props.history.push("/home");
-    //         } else{
-    //             props.history.push("/empStatus");
-    //         }
-    //     } 
-    //     return null;
-    //   }
+        console.log(props.result);
 
-    
-    // onChange = e => this.setState({
-    //     data: { ...this.state.data, [e.target.name]: e.target.value}
-    // });
+        return null;
+      }
+
     
     onSubmit = () => {
-            this.props.dispatch(loginUser(this.state.data.email, this.state.data.password));
-        
+            this.props.dispatch(loginUser(this.state.data.email, this.state.data.password));        
     };
 
-    // validate = data => {
-    //     const errors = {};
-    //     if(!Validator.isEmail(data.email)) errors.email = "Invalid Email";
-    //     if(!data.password) errors.password = "Can't be empty";
-    //     return errors;
-    // }
 
 
     render() { 
