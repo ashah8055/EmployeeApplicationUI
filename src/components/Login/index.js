@@ -62,9 +62,6 @@ Login.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        isUserLoggedIn: state.auth.loggedIn,
-        userObject: state.auth.user,
-        isBusiness: state.auth.isBusiness,
         result:state.auth.result
     };
 };
