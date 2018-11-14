@@ -1,23 +1,16 @@
 import React, { Component } from 'react';
-import { Collapse, Form, Tabs, Layout, Input, Row, Col, DatePicker, Radio, Card } from 'antd';
+import { Collapse, Form, Tabs, Layout, Input, Row, Col, DatePicker, Radio, Card, Select } from 'antd';
 import { Link } from "react-router-dom";
 import { Menu, Dropdown, Icon, Upload, Button, message } from 'antd';
 import reqwest from 'reqwest';
 import ReactDOM from 'react-dom';
-const menu = (
-    <Menu>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">1st menu item</a>
-        </Menu.Item>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">2nd menu item</a>
-        </Menu.Item>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">3rd menu item</a>
-        </Menu.Item>
-    </Menu>
-);
+import moment from 'moment';
+import { createRequestSubmit } from "../../redux/actions/CreateNewRequest";
+import { connect } from "react-redux";
+
+
 const { TextArea } = Input;
+const Option = Select.Option;
 const { Header, Sider, Content } = Layout;
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
@@ -28,66 +21,33 @@ class CreateNewRequest extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            reqDetails: {
+                reqId: moment().valueOf(),
+                RequestType: 'Enter Req Type'
+            }
+        }
 
     }
-    state = {
-        fileList: [],
-        uploading: false,
-    }
 
-    handleUpload = () => {
-        const { fileList } = this.state;
-        const formData = new FormData();
-        fileList.forEach((file) => {
-            formData.append('files[]', file);
-        });
+    onChange = e => this.setState({
+        reqDetails: { ...this.state.reqDetails, [e.target.name]: e.target.value }
+    });
 
-        this.setState({
-            uploading: true,
-        });
-        reqwest({
-            url: '//jsonplaceholder.typicode.com/posts/',
-            method: 'post',
-            processData: false,
-            data: formData,
-            success: () => {
-                this.setState({
-                    fileList: [],
-                    uploading: false,
-                });
-                message.success('upload successfully.');
-            },
-            error: () => {
-                this.setState({
-                    uploading: false,
-                });
-                message.error('upload failed.');
-            },
-        });
-    }
+    onSubmit = () => {
+
+        let data = {};
+        data.reqDetails = this.state.reqDetails;
+        data.reqId = this.state.reqDetails.reqId;
+        this.props.dispatch(createRequestSubmit(data));
+        console.log("Submit click");
+    };
+
+
+
+
     render() {
-        const { uploading } = this.state;
-        const props = {
-            action: '//jsonplaceholder.typicode.com/posts/',
-            onRemove: (file) => {
-                this.setState(({ fileList }) => {
-                    const index = fileList.indexOf(file);
-                    const newFileList = fileList.slice();
-                    newFileList.splice(index, 1);
-                    return {
-                        fileList: newFileList,
-                    };
-                });
-            },
-            beforeUpload: (file) => {
-                this.setState(({ fileList }) => ({
-                    fileList: [...fileList, file],
-                }));
-                return false;
-            },
-            fileList: this.state.fileList,
-        };
-
+        const { reqDetails } = this.state;
         return (
             <div>
                 <Layout>
@@ -105,70 +65,72 @@ class CreateNewRequest extends Component {
                             <Row>
                                 <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                                     <Card >
-                                        <FormItem label="Request Group">
-                                            <Dropdown overlay={menu}>
-                                                <a className="ant-dropdown-link" href="#">
-                                                    Hover me <Icon type="down" />
-                                                </a>
-                                            </Dropdown>
 
+                                        <FormItem
+                                            label="RequestGroup"
+                                            hasFeedback
+                                        >
+                                            {/* <Select defaultValue="2" id="ddlreqGroup" name="ddlreqGroup" >
+                                                <Option value="1">Option 1</Option>
+                                                <Option value="2">Option 2</Option>
+                                                <Option value="3">Option 3</Option>
+                                            </Select> */}
                                         </FormItem>
+
                                     </Card>
                                 </Col>
 
 
                                 <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                                     <Card >
-                                        <FormItem label="Status">
-                                            <Dropdown overlay={menu}>
-                                                <a className="ant-dropdown-link" href="#">
-                                                    Hover me <Icon type="down" />
-                                                </a>
-                                            </Dropdown>
+                                        <FormItem
 
+                                            label="Status"
+                                            hasFeedback
+
+                                        >
+                                            {/* <Select defaultValue="2">
+                                                <Option value="1">Option 1</Option>
+                                                <Option value="2">Option 2</Option>
+                                                <Option value="3">Option 3</Option>
+                                            </Select> */}
                                         </FormItem>
+
                                     </Card>
                                 </Col>
 
 
                                 <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                                     <Card >
-                                        <FormItem label="Request Type">
-                                            <Dropdown overlay={menu}>
-                                                <a className="ant-dropdown-link" href="#">
-                                                    Hover me <Icon type="down" />
-                                                </a>
-                                            </Dropdown>
+                                        <FormItem
 
+                                            label="RequestType"
+                                            hasFeedback
+
+                                        >
+                                            <Input id="RequestType" type="text" name="RequestType" value={reqDetails.RequestType} onChange={this.onChange} placeholder="Request type" />
+
+
+                                            {/* <Select defaultValue="2">
+                                                <Option value="1">Option 1</Option>
+                                                <Option value="2">Option 2</Option>
+                                                <Option value="3">Option 3</Option>
+                                            </Select> */}
                                         </FormItem>
+
                                     </Card>
                                 </Col>
-                                <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <Upload {...props}>
-                                        <Button>
-                                            <Icon type="upload" /> Select File
-                                        </Button>
-                                    </Upload>
-                                    <Button
-                                        className="upload-demo-start"
-                                        type="primary"
-                                        onClick={this.handleUpload}
-                                        disabled={this.state.fileList.length === 0}
-                                        loading={uploading}
-                                    >
-                                        {uploading ? 'Uploading' : 'Start Upload'}
-                                    </Button>
-                                </Col>
+
                                 <Col s={24} sm={24} md={24} lg={24} xl={24}>
                                     <Card >
                                         <FormItem label="Description">
-                                            <TextArea rows={4} />
+                                            <TextArea rows={4} id="description" />
                                         </FormItem>
                                     </Card>
                                 </Col>
                                 <Col s={24} sm={24} md={24} lg={24} xl={24}>
                                     <Card >
-                                        <Button type="primary">Submit</Button>
+                                        <Button type="primary" onClick={this.onSubmit}>Submit</Button>
                                     </Card>
                                 </Col>
                             </Row>
@@ -183,6 +145,11 @@ class CreateNewRequest extends Component {
 
 }
 
-ReactDOM.render(<CreateNewRequest />, document.getElementById('root'));
+// const mapStateToProps = state => {
+//     return {
 
-export default CreateNewRequest;
+//         isTaskCreated: state.createTask.isTaskCreated
+//     };
+// };
+
+export default (CreateNewRequest);
