@@ -26,30 +26,28 @@ class timesheet extends Component {
                     <tr>
                         <td>Hour Claim</td>
                         <td>
-                            Input box
-                       </td>
-                        <td>
-                            Input box
-                       </td>
-                        <td>
-                            Input box
-                       </td>
-                        <td>
-                            Input box
-                       </td>
-                        <td>
-                            Input box
-                       </td>
-                        <td>
-                            Input box
-                       </td>
-                        <td>
-                            Input box
-                       </td>
-                        <td>
-                            Total
-                       </td>
+                            <Input size="small" placeholder="Enter Hr" />
+                        </td>
+
+
                     </tr>
+                    <tr>
+                        <td>Start Time</td>
+                        <td><Input size="small" placeholder="Enter Stat Time" /></td>
+                    </tr>
+                    <tr>
+                        <td>Time Off</td>
+                        <td><Input size="small" placeholder="Enter Time Off" /></td>
+                    </tr>
+                    <tr>
+                        <td>Total Bill</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Total Hours</td>
+                        <td></td>
+                    </tr>
+
                 </tbody>
             </table>
         );

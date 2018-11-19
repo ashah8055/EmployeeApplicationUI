@@ -3,7 +3,7 @@ import { Collapse, Form, Button, Tabs, Layout, Input, Row, Col, DatePicker, Radi
 import moment from 'moment';
 import { createRequestSubmit } from "../../redux/actions/CreateNewRequest";
 import { connect } from "react-redux";
-
+import TimeSheet from "../TimeSheet/index";
 const { TextArea } = Input;
 const Option = Select.Option;
 const { Header, Sider, Content } = Layout;
@@ -154,7 +154,7 @@ class CreateNewRequest extends Component {
 
                     </Content>
                 </Layout>
-
+                <TimeSheet />
             </div >
 
         );
