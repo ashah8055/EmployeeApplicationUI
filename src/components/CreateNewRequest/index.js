@@ -1,53 +1,100 @@
 import React, { Component } from 'react';
-import { Collapse, Form, Tabs, Layout, Input, Row, Col, DatePicker, Radio, Card, Select } from 'antd';
-import { Link } from "react-router-dom";
-import { Menu, Dropdown, Icon, Upload, Button, message } from 'antd';
-import reqwest from 'reqwest';
-import ReactDOM from 'react-dom';
+import { Collapse, Form, Button, Tabs, Layout, Input, Row, Col, DatePicker, Radio, Card, Select, Upload, message, Icon } from 'antd';
 import moment from 'moment';
 import { createRequestSubmit } from "../../redux/actions/CreateNewRequest";
 import { connect } from "react-redux";
-
 
 const { TextArea } = Input;
 const Option = Select.Option;
 const { Header, Sider, Content } = Layout;
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
-function handleChange(value) {
-    console.log(`selected ${value}`);
-}
+
+
+
+// function onChange(date, dateString) {
+//     console.log(date, dateString);
+// }
 class CreateNewRequest extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            error: "",
             reqDetails: {
                 reqId: moment().valueOf(),
-                RequestType: 'Enter Req Type'
+                ddlJob: '3',
+                //   startDate: '',
+                //  endDate: '',
+                selectWeek: ''
             }
         }
 
     }
 
-    onChange = e => this.setState({
-        reqDetails: { ...this.state.reqDetails, [e.target.name]: e.target.value }
-    });
+    onDropdownChange = (e, i) => {
+        let reqDetails = Object.assign({}, this.state.reqDetails);
+        reqDetails.ddlJob = e;
+        return this.setState({ reqDetails });
+    }
 
     onSubmit = () => {
 
         let data = {};
         data.reqDetails = this.state.reqDetails;
+        console.log("Details", data.reqDetails);
         data.reqId = this.state.reqDetails.reqId;
         this.props.dispatch(createRequestSubmit(data));
         console.log("Submit click");
     };
+    // onPlacementDateChange = (e, date) => {
+    //     // this.setState({
+    //     //     ...this.state.empDetails.recruiter, placementDate: date,
+    //     // });
+    //     let reqDetails = Object.assign({}, this.state.reqDetails);
+    //     reqDetails["startDate"] = moment(date).valueOf();
+    //     reqDetails["endDate"] = moment(date).valueOf();
+
+    //     return this.setState({ reqDetails });
+    // };
+
+    onSelectWeekChange = (e, date) => {
+
+        console.log("select week change", e);
+        console.log("date" + date);
+
+        let dt = moment(e);
+        let selectedDate = dt.startOf('week').format("MM/DD/YYYY");
+        let day1 = dt.format("DD");
+        let day2 = dt.add(1, 'days').format("DD");
+        let day3 = dt.add(1, 'days').format("DD");
+        let day4 = dt.add(1, 'days').format("DD");
+        let day5 = dt.add(1, 'days').format("DD");
+        let day6 = dt.add(1, 'days').format("DD");
+        let day7 = dt.add(1, 'days').format("DD");
 
 
+        console.log(dt.format("MM/DD/YYYY"));
+        console.log(dt.endOf('week').format("MM/DD/YYYY"));
+        console.log("duration");
+        console.log("D1" + day1);
+        console.log("D2" + day2);
+        console.log("D3" + day3);
+        console.log("D4" + day4);
+        console.log("D5" + day5);
 
+        let reqDetails = Object.assign({}, this.state.reqDetails);
+        reqDetails["selectWeek"] = moment(e).valueOf();
+        return this.setState({ reqDetails });
+
+
+    }
 
     render() {
-        const { reqDetails } = this.state;
+        const { WeekPicker } = DatePicker;
+        // const weekpicker = DatePicker.WeekPicker;
+
+
         return (
             <div>
                 <Layout>
@@ -67,67 +114,35 @@ class CreateNewRequest extends Component {
                                     <Card >
 
                                         <FormItem
-                                            label="RequestGroup"
+                                            label="Job"
                                             hasFeedback
                                         >
-                                            {/* <Select defaultValue="2" id="ddlreqGroup" name="ddlreqGroup" >
+                                            <Select id="ddlJob" name="ddlJob" value={this.state.reqDetails.ddlJob} onChange={this.onDropdownChange}>
                                                 <Option value="1">Option 1</Option>
                                                 <Option value="2">Option 2</Option>
                                                 <Option value="3">Option 3</Option>
-                                            </Select> */}
+                                            </Select>
                                         </FormItem>
 
                                     </Card>
                                 </Col>
+
 
 
                                 <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                                     <Card >
                                         <FormItem
 
-                                            label="Status"
+                                            label="Week Picker"
                                             hasFeedback
 
                                         >
-                                            {/* <Select defaultValue="2">
-                                                <Option value="1">Option 1</Option>
-                                                <Option value="2">Option 2</Option>
-                                                <Option value="3">Option 3</Option>
-                                            </Select> */}
+                                            <WeekPicker onChange={this.onSelectWeekChange} defaultValue={this.state.reqDetails.selectWeek} placeholder="Select week" />
                                         </FormItem>
 
                                     </Card>
                                 </Col>
 
-
-                                <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <Card >
-                                        <FormItem
-
-                                            label="RequestType"
-                                            hasFeedback
-
-                                        >
-                                            <Input id="RequestType" type="text" name="RequestType" value={reqDetails.RequestType} onChange={this.onChange} placeholder="Request type" />
-
-
-                                            {/* <Select defaultValue="2">
-                                                <Option value="1">Option 1</Option>
-                                                <Option value="2">Option 2</Option>
-                                                <Option value="3">Option 3</Option>
-                                            </Select> */}
-                                        </FormItem>
-
-                                    </Card>
-                                </Col>
-
-                                <Col s={24} sm={24} md={24} lg={24} xl={24}>
-                                    <Card >
-                                        <FormItem label="Description">
-                                            <TextArea rows={4} id="description" />
-                                        </FormItem>
-                                    </Card>
-                                </Col>
                                 <Col s={24} sm={24} md={24} lg={24} xl={24}>
                                     <Card >
                                         <Button type="primary" onClick={this.onSubmit}>Submit</Button>
@@ -139,7 +154,9 @@ class CreateNewRequest extends Component {
 
                     </Content>
                 </Layout>
+
             </div >
+
         );
     }
 
@@ -151,5 +168,48 @@ class CreateNewRequest extends Component {
 //         isTaskCreated: state.createTask.isTaskCreated
 //     };
 // };
+const mapStateToProps = state => {
+    return {
 
-export default (CreateNewRequest);
+
+
+
+    };
+};
+
+export default connect(mapStateToProps)(CreateNewRequest);
+
+
+
+// <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+// <Card >
+//     <FormItem
+
+//         label=" Start Date"
+//         hasFeedback
+
+//     >
+
+
+//         <DatePicker onChange={this.onPlacementDateChange} placeholder="Select Date" defaultValue={this.state.reqDetails.startDate} />
+
+//         {/* <RangePicker onChange={this.onPlacementDateChange} defaultValue={this.state.reqDetails.datepicker} /> */}
+//     </FormItem>
+
+// </Card>
+// </Col>
+// <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+// <Card >
+//     <FormItem
+
+//         label=" End Date"
+//         hasFeedback
+
+//     >
+//         <DatePicker onChange={this.onPlacementDateChange} placeholder="Select Date" defaultValue={this.state.reqDetails.endDate} />
+
+//         {/* <RangePicker onChange={this.onPlacementDateChange} defaultValue={this.state.reqDetails.datepicker} /> */}
+//     </FormItem>
+
+// </Card>
+// </Col>
