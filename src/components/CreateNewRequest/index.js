@@ -11,6 +11,19 @@ const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 
 
+// for(int i=0;i <= nums.length();i++)
+//         {
+//             if(nums[i]==1)
+//             {
+//                 count++;
+//             }
+//             else
+//             {
+//                 count=0;
+//             }
+//         }
+
+
 
 // function onChange(date, dateString) {
 //     console.log(date, dateString);
@@ -20,6 +33,7 @@ class CreateNewRequest extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            viewTimesheet: false,
             error: "",
             reqDetails: {
                 reqId: moment().valueOf(),
@@ -39,9 +53,10 @@ class CreateNewRequest extends Component {
     }
 
     onSubmit = () => {
-
+        this.setState({ viewTimesheet: !this.state.viewTimesheet });
         let data = {};
         data.reqDetails = this.state.reqDetails;
+
         console.log("Details", data.reqDetails);
         data.reqId = this.state.reqDetails.reqId;
         this.props.dispatch(createRequestSubmit(data));
@@ -151,10 +166,15 @@ class CreateNewRequest extends Component {
                             </Row>
                         </Form>
 
+                        <div>
+                            {this.state.viewTimesheet && (
+                                <TimeSheet />
+                            )}
 
+                        </div>
                     </Content>
                 </Layout>
-                <TimeSheet />
+
             </div >
 
         );
