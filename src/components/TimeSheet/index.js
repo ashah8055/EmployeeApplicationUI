@@ -47,23 +47,18 @@ class timesheet extends Component {
         });
     }
 
-    // getDay() {
-    //     return this.state.timesheet.map((timesheet) => {
-    //         return (
-    //             <div>
-    //                 {timesheet.selectWeek}
-    //             </div>
-    //         );
-    //     });
-    // }
+    getDay() {
+
+    }
     render() {
+        console.log(this.props);
         return (
             <table className="table table-hover">
                 <thead>
 
                     <tr>
                         <th>Week</th>
-                        {/* <th> {this.getDay()}</th> */}
+                        <th> {this.getDay()}</th>
                         <th>Mon</th>
                         <th>Tue</th>
                         <th>Wed</th>
@@ -83,10 +78,6 @@ class timesheet extends Component {
                         </td>
 
 
-                    </tr>
-                    <tr>
-                        <td>Start Time</td>
-                        <td><Input size="small" placeholder="Enter Start Time" /></td>
                     </tr>
                     <tr>
                         <td>Time Off</td>
@@ -113,13 +104,15 @@ class timesheet extends Component {
 
 }
 
-// function mapStateToProps(state) {
-//     return {
-//         timesheet: state.timesheet
-//     };
-// }
+function mapStateToProps(state) {
+    console.log(state);
+    return {
+
+        timesheet: state.timesheet
+    };
+}
 
 
-//export default connect(mapStateToProps)(timesheet);
+export default connect(mapStateToProps)(timesheet);
 
-export default timesheet;
+//export default timesheet;
