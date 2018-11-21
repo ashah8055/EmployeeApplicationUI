@@ -11,7 +11,6 @@ class timesheet extends Component {
         super(props);
         this.state = {
             total: 0,
-            totalBill: 0,
             noOfShift: 0,
             timeOff: 0
         };
@@ -24,8 +23,6 @@ class timesheet extends Component {
         this.setState({ noOfShift: Number(evt.target.value) });
         let y = this.state.noOfShift + Number(evt.target.value)
         this.setState({ total: y })
-        let x = this.state.noOfShift - Number(evt.target.value)
-        this.setState({ totalBill: x })
 
 
     }
@@ -34,8 +31,6 @@ class timesheet extends Component {
         this.setState({ timeOff: Number(evt.target.value) });
         let y = this.state.noOfShift + Number(evt.target.value)
         this.setState({ total: y })
-        let x = this.state.noOfShift - Number(evt.target.value)
-        this.setState({ totalBill: x })
 
 
     }
