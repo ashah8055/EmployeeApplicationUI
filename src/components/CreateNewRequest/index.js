@@ -28,12 +28,21 @@ class CreateNewRequest extends Component {
                 //   startDate: '',
                 //  endDate: '',
                 selectWeek: ''
+            },
+            TimeSheetDetails: {
+                jobId: 'Test',
+                jobTitle: 'Test',
+                client: 'Test',
+                approver: 'Test',
+                endDate: 'Test',
+                projectId: 'Test'
             }
         }
 
     }
 
     onDropdownChange = (e, i) => {
+        console.log("DDL" + e);
         let reqDetails = Object.assign({}, this.state.reqDetails);
         reqDetails.ddlJob = e;
         return this.setState({ reqDetails });
@@ -43,7 +52,7 @@ class CreateNewRequest extends Component {
         this.setState({ viewTimesheet: !this.state.viewTimesheet });
         let data = {};
         data.reqDetails = this.state.reqDetails;
-
+        data.TimeSheetDetails = this.state.TimeSheetDetails;
         console.log("Details", data.reqDetails);
         data.reqId = this.state.reqDetails.reqId;
         this.props.dispatch(createRequestSubmit(data));
@@ -79,11 +88,13 @@ class CreateNewRequest extends Component {
         console.log(dt.format("MM/DD/YYYY"));
         console.log(dt.endOf('week').format("MM/DD/YYYY"));
         console.log("duration");
-        console.log("D1" + day1);
-        console.log("D2" + day2);
-        console.log("D3" + day3);
-        console.log("D4" + day4);
-        console.log("D5" + day5);
+        //console.log("D1" + day1);
+        console.log("D1" + day2);
+        console.log("D2" + day3);
+        console.log("D3" + day4);
+        console.log("D4" + day5);
+        console.log("D5" + day6);
+
 
         let reqDetails = Object.assign({}, this.state.reqDetails);
         reqDetails["selectWeek"] = moment(e).valueOf();
