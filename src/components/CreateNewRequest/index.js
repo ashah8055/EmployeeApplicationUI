@@ -25,16 +25,15 @@ class CreateNewRequest extends Component {
             reqDetails: {
                 reqId: moment().valueOf(),
                 ddlJob: '3',
-                //   startDate: '',
-                //  endDate: '',
                 selectWeek: ''
             },
             TimeSheetDetails: {
                 jobId: 'Test',
                 jobTitle: 'Test',
-                client: 'Test',
-                approver: 'Test',
-                endDate: 'Test',
+                endClient: 'N/A',
+                client: 'Inhouse',
+                approver: 'Amar Shah',
+                endDate: '12/31/2018',
                 projectId: 'Test'
             }
         }
@@ -58,44 +57,11 @@ class CreateNewRequest extends Component {
         this.props.dispatch(createRequestSubmit(data));
         console.log("Submit click");
     };
-    // onPlacementDateChange = (e, date) => {
-    //     // this.setState({
-    //     //     ...this.state.empDetails.recruiter, placementDate: date,
-    //     // });
-    //     let reqDetails = Object.assign({}, this.state.reqDetails);
-    //     reqDetails["startDate"] = moment(date).valueOf();
-    //     reqDetails["endDate"] = moment(date).valueOf();
-
-    //     return this.setState({ reqDetails });
-    // };
 
     onSelectWeekChange = (e, date) => {
 
         console.log("select week change", e);
         console.log("date" + date);
-
-        let dt = moment(e);
-        let selectedDate = dt.startOf('week').format("MM/DD/YYYY");
-        let day1 = dt.format("DD");
-        let day2 = dt.add(1, 'days').format("DD");
-        let day3 = dt.add(1, 'days').format("DD");
-        let day4 = dt.add(1, 'days').format("DD");
-        let day5 = dt.add(1, 'days').format("DD");
-        let day6 = dt.add(1, 'days').format("DD");
-        let day7 = dt.add(1, 'days').format("DD");
-
-
-        console.log(dt.format("MM/DD/YYYY"));
-        console.log(dt.endOf('week').format("MM/DD/YYYY"));
-        console.log("duration");
-        //console.log("D1" + day1);
-        console.log("D1" + day2);
-        console.log("D2" + day3);
-        console.log("D3" + day4);
-        console.log("D4" + day5);
-        console.log("D5" + day6);
-
-
         let reqDetails = Object.assign({}, this.state.reqDetails);
         reqDetails["selectWeek"] = moment(e).valueOf();
         return this.setState({ reqDetails });
@@ -122,7 +88,57 @@ class CreateNewRequest extends Component {
                     </Header>
                     <Content>
                         <Form layout="inline">
+
                             <Row>
+                                <Col xs={4} sm={4} md={4} lg={4} xl={4}>
+                                    <Card >
+                                        CLIENT:
+                                        <div> {this.state.TimeSheetDetails.client}</div>
+                                    </Card>
+                                </Col>
+                                <Col xs={4} sm={4} md={4} lg={4} xl={4}>
+                                    <Card >
+
+                                        APPROVER(S):
+                                        <div> {this.state.TimeSheetDetails.approver}</div>
+
+
+                                    </Card>
+                                </Col>
+                                <Col xs={4} sm={4} md={4} lg={4} xl={4}>
+                                    <Card >
+
+
+                                        JOB END DATE:
+                                        <div> {this.state.TimeSheetDetails.endDate}</div>
+
+                                    </Card>
+                                </Col>
+                                <Col xs={4} sm={4} md={4} lg={4} xl={4}>
+                                    <Card >
+
+
+                                        END CLIENT:
+                                        <div> {this.state.TimeSheetDetails.endClient}</div>
+
+                                    </Card>
+                                </Col>
+                                <Col xs={4} sm={4} md={4} lg={4} xl={4}>
+                                    <Card >
+
+
+                                        PROJECT:
+                                        <div> {this.state.TimeSheetDetails.projectId}</div>
+
+                                    </Card>
+                                </Col>
+                                <Col xs={4} sm={4} md={4} lg={4} xl={4}>
+                                    <Card >
+
+
+
+                                    </Card>
+                                </Col>
                                 <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                                     <Card >
 
@@ -131,9 +147,9 @@ class CreateNewRequest extends Component {
                                             hasFeedback
                                         >
                                             <Select id="ddlJob" name="ddlJob" value={this.state.reqDetails.ddlJob} onChange={this.onDropdownChange}>
-                                                <Option value="1">Option 1</Option>
-                                                <Option value="2">Option 2</Option>
-                                                <Option value="3">Option 3</Option>
+                                                <Option value="1">Java Developer</Option>
+                                                <Option value="2">Full Stack</Option>
+                                                <Option value="3">Data Analyst</Option>
                                             </Select>
                                         </FormItem>
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Form, Button, Tabs, Layout, Input, Row, Col, DatePicker, Radio, Card, Select, Upload, message, Icon } from 'antd';
+import { Collapse, Form, Button, Tabs, Layout, Input, TextArea } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -88,13 +88,14 @@ class timesheet extends Component {
             Workingdetails: {
                 totalWeekWorkHours: '0',
                 totalWeekBillableHours: '0',
-                totalWeekTimeoffHours: '0'
-
+                totalWeekTimeoffHours: '0',
+                totalWeekHours: '0',
+                comments: ''
             }
 
         };
 
-
+        this.baseState = this.state;
     }
 
 
@@ -106,6 +107,7 @@ class timesheet extends Component {
         day.workHours = Number(evt.target.value);
         Workingdetails.totalWeekWorkHours = Number(Workingdetails.totalWeekWorkHours) + Number(evt.target.value);
         Workingdetails.totalWeekBillableHours = Workingdetails.totalWeekWorkHours;
+        Workingdetails.totalWeekHours = Number(Workingdetails.totalWeekWorkHours) + Number(Workingdetails.totalWeekTimeoffHours);
         day.billableHours = Number(evt.target.value);
         return this.setState({ workinghours, Workingdetails });
     }
@@ -124,29 +126,32 @@ class timesheet extends Component {
 
 
     onSubmit = () => {
-        let data = {};
-        data.workinghours = this.state.workinghours;
-        data.Workingdetails = this.state.Workingdetails;
+        // let data = {};
+        // data.workinghours = this.state.workinghours;
+        // data.Workingdetails = this.state.Workingdetails;
         // data.reqId = this.state.reqDetails.reqId;
-        this.props.dispatch(createWorkingHourTimeSheet(data));
+        // this.props.dispatch(createWorkingHourTimeSheet(data));
         console.log("Save click");
     };
 
-    // getDay() {
-    //   //  let dt = moment(this.props.timesheet.timesheet.reqDetails.selectWeek);
-    //     let selectedDate = dt.startOf('week').format("MM/DD/YYYY");
-    //     let day1 = dt.format("DD");
-    //     let day2 = dt.add(1, 'days').format("DD");
-    //     let day3 = dt.add(1, 'days').format("DD");
-    //     let day4 = dt.add(1, 'days').format("DD");
-    //     let day5 = dt.add(1, 'days').format("DD");
-    //     let day6 = dt.add(1, 'days').format("DD");
-    //     let day7 = dt.add(1, 'days').format("DD");
+    onReset = () => {
+        this.setState(this.baseState);
+    }
 
-    //     console.log("Date :" + day2)
-    // }
+
     render() {
-        // console.log("Week Select" + this.props.timesheet.timesheet.reqDetails.selectWeek);
+
+        const { TextArea } = Input;
+        let dt = moment(this.props.timesheet.timesheet.reqDetails.selectWeek);
+        let selectedDate = dt.startOf('week').format("MM/DD/YYYY");
+        let day1 = dt.format("DD");
+        let day2 = dt.add(1, 'days').format("DD-MMM");
+        let day3 = dt.add(1, 'days').format("DD-MMM");
+        let day4 = dt.add(1, 'days').format("DD-MMM");
+        let day5 = dt.add(1, 'days').format("DD-MMM");
+        let day6 = dt.add(1, 'days').format("DD-MMM");
+        let day7 = dt.add(1, 'days').format("DD-MMM");
+
 
         return (
             <table className="table table-hover">
@@ -154,13 +159,13 @@ class timesheet extends Component {
 
                     <tr>
                         <th>Week</th>
-                        <th>Mon</th>
-                        <th>Tue</th>
-                        <th>Wed</th>
-                        <th>Thur</th>
-                        <th>Fri</th>
-                        <th>Sat</th>
-                        <th>Sun</th>
+                        <th>Mon <input type='text' value={dt.startOf('week').format("DD-MMM")} readOnly /> </th>
+                        <th>Tue <input type='text' value={day2} readOnly /></th>
+                        <th>Wed <input type='text' value={day3} readOnly /></th>
+                        <th>Thur <input type='text' value={day4} readOnly /></th>
+                        <th>Fri <input type='text' value={day5} readOnly /></th>
+                        <th>Sat <input type='text' value={day6} readOnly /></th>
+                        <th>Sun <input type='text' value={day7} readOnly /></th>
                         <th>TotalHr</th>
                     </tr>
 
@@ -169,10 +174,10 @@ class timesheet extends Component {
                     <tr>
                         <td>Hour Claim</td>
                         <td>
-                            <Input size="small" placeholder="Enter Hr" name="monday" onChange={this.handlenum1Change} />
+                            <Input size="small" placeholder="Enter Hr" name="monday" id="hMon" onChange={this.handlenum1Change} />
                         </td>
                         <td>
-                            <Input size="small" placeholder="Enter Hr" name="tuesday" onChange={this.handlenum1Change} />
+                            <Input size="small" placeholder="Enter Hr" name="tuesday" id="hTue" onChange={this.handlenum1Change} />
                         </td>
                         <td>
                             <Input size="small" placeholder="Enter Hr" name="wednesday" onChange={this.handlenum1Change} />
@@ -229,11 +234,21 @@ class timesheet extends Component {
                         <td><input type='text' value={this.state.workinghours.friday.totalHour} readOnly /></td>
                         <td><input type='text' value={this.state.workinghours.saturday.totalHour} readOnly /></td>
                         <td><input type='text' value={this.state.workinghours.sunday.totalHour} readOnly /></td>
+                        <td><input type='text' value={this.state.Workingdetails.totalWeekHours} readOnly /></td>
 
                     </tr>
                     <tr>
-                        <td><Button type="primary" onClick={this.onSubmit}>Save</Button></td>
-                        <td><Button type="primary" onClick={this.onReset}>Reset</Button></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Notes</td>
+                        <td width="400" colSpan="8"><TextArea rows={4} /></td>
+                    </tr>
+                    <tr >
+                        <td colSpan="3"></td>
+                        <td ><Button type="primary" onClick={this.onSubmit}>Save</Button></td>
+                        <td ><Button type="primary" onClick={this.onReset}>Reset</Button></td>
+
                     </tr>
 
                 </tbody>
