@@ -109,16 +109,18 @@ class timesheet extends Component {
         Workingdetails.totalWeekBillableHours = Workingdetails.totalWeekWorkHours;
         Workingdetails.totalWeekHours = Number(Workingdetails.totalWeekWorkHours) + Number(Workingdetails.totalWeekTimeoffHours);
         day.billableHours = Number(evt.target.value);
+        day.totalHour = Number(day.timeOffHour) + Number(evt.target.value);;
+
         return this.setState({ workinghours, Workingdetails });
     }
 
     handlenum2Change = (evt) => {
         let Workingdetails = Object.assign({}, this.state.Workingdetails);
         let workinghours = Object.assign({}, this.state.workinghours);
-        let day = workinghours[evt.target.name]
+        let day = workinghours[evt.target.name];
         day.timeOffHour = Number(evt.target.value);
         Workingdetails.totalWeekTimeoffHours = Number(Workingdetails.totalWeekTimeoffHours) + Number(evt.target.value);
-        day.totalHour = day.workHours + Number(evt.target.value);;
+        day.totalHour = Number(day.workHours) + Number(evt.target.value);;
         return this.setState({ workinghours, Workingdetails });
 
 
@@ -142,7 +144,7 @@ class timesheet extends Component {
     render() {
 
         const { TextArea } = Input;
-        let dt = moment(this.props.timesheet.timesheet.reqDetails.selectWeek);
+        let dt = moment(this.props.timesheet.timesheet.TimeSheetDetails.selectWeek);
         let selectedDate = dt.startOf('week').format("MM/DD/YYYY");
         let day1 = dt.format("DD");
         let day2 = dt.add(1, 'days').format("DD-MMM");
@@ -264,6 +266,7 @@ function mapStateToProps(state) {
     return {
 
         timesheet: state.timesheet
+
     };
 }
 

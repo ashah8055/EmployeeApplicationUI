@@ -22,12 +22,12 @@ class CreateNewRequest extends Component {
         this.state = {
             viewTimesheet: false,
             error: "",
-            reqDetails: {
+
+            TimeSheetDetails: {
+
                 reqId: moment().valueOf(),
                 ddlJob: '3',
-                selectWeek: ''
-            },
-            TimeSheetDetails: {
+                selectWeek: '',
                 jobId: 'Test',
                 jobTitle: 'Test',
                 endClient: 'N/A',
@@ -42,18 +42,17 @@ class CreateNewRequest extends Component {
 
     onDropdownChange = (e, i) => {
         console.log("DDL" + e);
-        let reqDetails = Object.assign({}, this.state.reqDetails);
-        reqDetails.ddlJob = e;
-        return this.setState({ reqDetails });
+        let TimeSheetDetails = Object.assign({}, this.state.TimeSheetDetails);
+        TimeSheetDetails.ddlJob = e;
+        return this.setState({ TimeSheetDetails });
     }
 
     onSubmit = () => {
         this.setState({ viewTimesheet: !this.state.viewTimesheet });
         let data = {};
-        data.reqDetails = this.state.reqDetails;
         data.TimeSheetDetails = this.state.TimeSheetDetails;
-        console.log("Details", data.reqDetails);
-        data.reqId = this.state.reqDetails.reqId;
+        console.log("Details for time sheet details", data.TimeSheetDetails);
+        data.reqId = this.state.TimeSheetDetails.reqId;
         this.props.dispatch(createRequestSubmit(data));
         console.log("Submit click");
     };
@@ -62,9 +61,9 @@ class CreateNewRequest extends Component {
 
         console.log("select week change", e);
         console.log("date" + date);
-        let reqDetails = Object.assign({}, this.state.reqDetails);
-        reqDetails["selectWeek"] = moment(e).valueOf();
-        return this.setState({ reqDetails });
+        let TimeSheetDetails = Object.assign({}, this.state.TimeSheetDetails);
+        TimeSheetDetails["selectWeek"] = moment(e).valueOf();
+        return this.setState({ TimeSheetDetails });
 
 
     }
@@ -146,7 +145,7 @@ class CreateNewRequest extends Component {
                                             label="Job"
                                             hasFeedback
                                         >
-                                            <Select id="ddlJob" name="ddlJob" value={this.state.reqDetails.ddlJob} onChange={this.onDropdownChange}>
+                                            <Select id="ddlJob" name="ddlJob" value={this.state.TimeSheetDetails.ddlJob} onChange={this.onDropdownChange}>
                                                 <Option value="1">Java Developer</Option>
                                                 <Option value="2">Full Stack</Option>
                                                 <Option value="3">Data Analyst</Option>
@@ -166,7 +165,7 @@ class CreateNewRequest extends Component {
                                             hasFeedback
 
                                         >
-                                            <WeekPicker onChange={this.onSelectWeekChange} defaultValue={this.state.reqDetails.selectWeek} placeholder="Select week" />
+                                            <WeekPicker onChange={this.onSelectWeekChange} defaultValue={this.state.TimeSheetDetails.selectWeek} placeholder="Select week" />
                                         </FormItem>
 
                                     </Card>
