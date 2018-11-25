@@ -32,10 +32,13 @@ function* fetchTimeSheet(action) {
   try {
     console.log("Action->" + JSON.stringify(action));
     let formBody = {};
-    formBody.ddljob = action.ddljob;
     formBody.selectWeek = action.selectWeek; //action.provider;
-    formBody.jobId = action.jobId;
+    formBody.jobTitle = action.jobTitle;
     formBody.approver = action.approver;
+    formBody.client = action.client;
+    formBody.endDate = action.endDate;
+    formBody.projectId = action.projectId;
+
     //const reqMethod = "POST";
     const reqMethod = "POST";
     const loginUrl = 'http://localhost:8080/timesheet';

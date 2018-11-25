@@ -26,10 +26,8 @@ class CreateNewRequest extends Component {
             TimeSheetDetails: {
 
                 reqId: moment().valueOf(),
-                ddlJob: '3',
                 selectWeek: '',
-                jobId: 'Test',
-                jobTitle: 'Test',
+                jobTitle: 'Full Stack',
                 endClient: 'N/A',
                 client: 'Inhouse',
                 approver: 'Amar Shah',
@@ -43,7 +41,7 @@ class CreateNewRequest extends Component {
     onDropdownChange = (e, i) => {
         console.log("DDL" + e);
         let TimeSheetDetails = Object.assign({}, this.state.TimeSheetDetails);
-        TimeSheetDetails.ddlJob = e;
+        TimeSheetDetails.jobTitle = e;
         return this.setState({ TimeSheetDetails });
     }
 
@@ -145,10 +143,10 @@ class CreateNewRequest extends Component {
                                             label="Job"
                                             hasFeedback
                                         >
-                                            <Select id="ddlJob" name="ddlJob" value={this.state.TimeSheetDetails.ddlJob} onChange={this.onDropdownChange}>
-                                                <Option value="1">Java Developer</Option>
-                                                <Option value="2">Full Stack</Option>
-                                                <Option value="3">Data Analyst</Option>
+                                            <Select id="jobTitle" name="jobTitle" value={this.state.TimeSheetDetails.jobTitle} onChange={this.onDropdownChange}>
+                                                <Option value="Java Developer">Java Developer</Option>
+                                                <Option value="Full Stack">Full Stack</Option>
+                                                <Option value="Data Analyst">Data Analyst</Option>
                                             </Select>
                                         </FormItem>
 
