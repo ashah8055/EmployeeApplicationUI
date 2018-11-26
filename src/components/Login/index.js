@@ -90,7 +90,7 @@ class Login extends Component {
           >
             Log in
           </Button>
-          Or <a href="">register now!</a>
+          Or  <Link to="/signup">Sign Up</Link>
         </FormItem>
       </Form>
     );

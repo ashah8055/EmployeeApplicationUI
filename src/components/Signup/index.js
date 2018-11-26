@@ -7,6 +7,7 @@ import {
 } from "react-bootstrap";
 import LoaderButton from "../LoaderButton";
 import "./Signup.css";
+import PhoneInput from "react-phone-number-input";
 
 class Signup extends Component {
   constructor(props) {
@@ -14,6 +15,9 @@ class Signup extends Component {
 
     this.state = {
       isLoading: false,
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -24,6 +28,9 @@ class Signup extends Component {
 
   validateForm() {
     return (
+      this.state.firstName.length > 0 &&
+      this.state.lastName.length > 0 &&
+      this.state.phoneNumber.length > 0 &&
       this.state.email.length > 0 &&
       this.state.password.length > 0 &&
       this.state.password === this.state.confirmPassword
@@ -85,8 +92,32 @@ class Signup extends Component {
   renderForm() {
     return (
       <form onSubmit={this.handleSubmit}>
+        <h3>Create a New Employee</h3>
+        <FormGroup controlId="firstName" bsSize="large">
+          <ControlLabel>First Name </ControlLabel>
+          <FormControl
+            autoFocus
+            type="text"
+            value={this.state.firstName}
+            onChange={this.handleChange}
+          />
+        </FormGroup>
+        <FormGroup controlId="lastName" bsSize="large">
+          <ControlLabel>Last Name </ControlLabel>
+          <FormControl
+            autoFocus
+            type="text"
+            value={this.state.lastName}
+            onChange={this.handleChange}
+          />
+        </FormGroup>
+        <PhoneInput
+          placeholder="Phone number"
+          value={this.state.phone}
+          onChange={phone => this.setState({ phone })}
+        />
         <FormGroup controlId="email" bsSize="large">
-          <ControlLabel>Email</ControlLabel>
+          <ControlLabel>Email </ControlLabel>
           <FormControl
             autoFocus
             type="email"
@@ -95,7 +126,7 @@ class Signup extends Component {
           />
         </FormGroup>
         <FormGroup controlId="password" bsSize="large">
-          <ControlLabel>Password</ControlLabel>
+          <ControlLabel>Password </ControlLabel>
           <FormControl
             value={this.state.password}
             onChange={this.handleChange}
@@ -103,7 +134,7 @@ class Signup extends Component {
           />
         </FormGroup>
         <FormGroup controlId="confirmPassword" bsSize="large">
-          <ControlLabel>Confirm Password</ControlLabel>
+          <ControlLabel>Confirm Password </ControlLabel>
           <FormControl
             value={this.state.confirmPassword}
             onChange={this.handleChange}
