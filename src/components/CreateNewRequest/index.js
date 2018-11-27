@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Collapse, Form, Button, Tabs, Layout, Input, Row, Col, DatePicker, Radio, Card, Select, Upload, message, Icon } from 'antd';
 import moment from 'moment';
 import { createRequestSubmit } from "../../redux/actions/CreateNewRequest";
+//import { createWorkingHourTimeSheet } from "../../redux/actions/CreateNewRequest";
 import { connect } from "react-redux";
 import TimeSheet from "../TimeSheet/index";
 const { TextArea } = Input;
@@ -25,7 +26,7 @@ class CreateNewRequest extends Component {
 
             TimeSheetDetails: {
 
-                reqId: moment().valueOf(),
+                //  reqId: moment().valueOf(),
                 selectWeek: '',
                 jobTitle: 'Full Stack',
                 endClient: 'N/A',
@@ -50,8 +51,9 @@ class CreateNewRequest extends Component {
         let data = {};
         data.TimeSheetDetails = this.state.TimeSheetDetails;
         console.log("Details for time sheet details", data.TimeSheetDetails);
-        data.reqId = this.state.TimeSheetDetails.reqId;
+        //  data.reqId = this.state.TimeSheetDetails.reqId;
         this.props.dispatch(createRequestSubmit(data));
+        //this.props.dispatch(createWorkingHourTimeSheet(data));
         console.log("Submit click");
     };
 

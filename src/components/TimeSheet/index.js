@@ -11,7 +11,7 @@ class timesheet extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            timesheetStatus: '1',
             workinghours: {
                 "monday": {
                     day: 'monday',
@@ -92,12 +92,10 @@ class timesheet extends Component {
                 totalWeekHours: '0',
                 comments: ''
             }
-
         };
 
         this.baseState = this.state;
     }
-
 
 
     handlenum1Change = (evt) => {
@@ -128,11 +126,12 @@ class timesheet extends Component {
 
 
     onSubmit = () => {
-        // let data = {};
-        // data.workinghours = this.state.workinghours;
-        // data.Workingdetails = this.state.Workingdetails;
-        // data.reqId = this.state.reqDetails.reqId;
-        // this.props.dispatch(createWorkingHourTimeSheet(data));
+
+        console.log("dad" + this.state.das);
+        let data = {};
+        data.workinghours = this.state.workinghours;
+        data.workingdetails = this.state.Workingdetails;
+        this.props.dispatch(createWorkingHourTimeSheet(data));
         console.log("Save click");
     };
 
@@ -153,6 +152,15 @@ class timesheet extends Component {
         let day5 = dt.add(1, 'days').format("DD-MMM");
         let day6 = dt.add(1, 'days').format("DD-MMM");
         let day7 = dt.add(1, 'days').format("DD-MMM");
+        const days = ["mon", "tue", "wed", "thur", "fri", "sat", "sun"];
+        const items = days.map(n => {
+            const obj = { totalHr: '0', billableHr: '0' };
+            return obj;
+        });
+
+
+        console.log(items)
+
 
 
         return (
@@ -248,7 +256,8 @@ class timesheet extends Component {
                     </tr>
                     <tr >
                         <td colSpan="3"></td>
-                        <td ><Button type="primary" onClick={this.onSubmit}>Save</Button></td>
+                        <td ><Button type="primary" >Save</Button></td>
+                        <td ><Button type="primary" onClick={this.onSubmit}>Submit</Button></td>
                         <td ><Button type="primary" onClick={this.onReset}>Reset</Button></td>
 
                     </tr>

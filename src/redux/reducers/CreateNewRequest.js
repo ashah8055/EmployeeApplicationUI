@@ -8,7 +8,7 @@ export default (state, action) => {
             // return Object.assign({}, state);
             return { ...state, timesheet: action.timesheet }
         case Type.CREATE_TIMESHEET_WORKINGHOUR:
-            return { ...state, timesheet: action.workingHour }
+            return { ...state }
         default:
             return { ...state };
     }
