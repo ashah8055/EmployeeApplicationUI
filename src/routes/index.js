@@ -17,7 +17,7 @@ export default ({ childProps }) => {
           path="/createNewRequest"
           render={props => <CreateNewRequest {...props} />}
         />
-        {/* <Link to="/signup">Sign Up</Link> */}
+        
         <Redirect to="/login" />
       </Switch>
     </BrowserRouter>

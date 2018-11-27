@@ -1,168 +1,181 @@
 import React, { Component } from "react";
-import {
-  HelpBlock,
-  FormGroup,
-  FormControl,
-  ControlLabel
-} from "react-bootstrap";
-import LoaderButton from "../LoaderButton";
-import "./Signup.css";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import Validator from "validator";
+import { Form, Input, Button, Card, Radio } from "antd";
+import InlineError from "../messages/InlineError";
+import { signupUser } from "../../redux/actions/home";
 import PhoneInput from "react-phone-number-input";
+import "./Signup.css";
+
+const RadioGroup = Radio.Group;
+
+const options = [
+  { label: "user", value: "user" },
+  { label: "admin", value: "admin" }
+];
 
 class Signup extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      isLoading: false,
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      confirmationCode: "",
-      newUser: null
+      data: {
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+      },
+      loading: false,
+      errors: {}
     };
   }
 
-  validateForm() {
-    return (
-      this.state.firstName.length > 0 &&
-      this.state.lastName.length > 0 &&
-      this.state.phoneNumber.length > 0 &&
-      this.state.email.length > 0 &&
-      this.state.password.length > 0 &&
-      this.state.password === this.state.confirmPassword
-    );
-  }
-
-  validateConfirmationForm() {
-    return this.state.confirmationCode.length > 0;
-  }
-
-  handleChange = event => {
+  onChange = e =>
     this.setState({
-      [event.target.id]: event.target.value
+      data: { ...this.state.data, [e.target.name]: e.target.value }
     });
+
+  onSubmit = e => {
+    const errors = this.validate(this.state.data);
+    this.setState({ errors });
+    if (Object.keys(errors).length === 0) {
+      const {
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
+        password,
+        confirmPassword
+      } = this.state.data;
+      this.props.dispatch(
+        signupUser({
+          firstName: firstName,
+          lastName: lastName,
+          phoneNumber: phoneNumber,
+          email: email,
+          password: password,
+          confirmPassword: confirmPassword
+        })
+      );
+      this.props.history.push("/home");
+    }
   };
 
-  handleSubmit = async event => {
-    event.preventDefault();
-
-    this.setState({ isLoading: true });
-
-    this.setState({ newUser: "test" });
-
-    this.setState({ isLoading: false });
+  validate = data => {
+    const errors = {};
+    if (!Validator.isEmail(data.email)) errors.email = "Invalid Email";
+    if (!data.password) errors.password = "Can't be empty";
+    if (!data.firstName) errors.firstName = "Can't be empty";
+    if (!data.lastName) errors.lastName = "Can't be empty";
+    if (!data.phoneNumber) errors.phoneNumber = "Please Enter";
+    if (data.password != data.confirmPassword)
+      errors.confirmPassword = "Write the same password";
+    return errors;
   };
-
-  handleConfirmationSubmit = async event => {
-    event.preventDefault();
-
-    this.setState({ isLoading: true });
-  };
-
-  renderConfirmationForm() {
-    return (
-      <form onSubmit={this.handleConfirmationSubmit}>
-        <FormGroup controlId="confirmationCode" bsSize="large">
-          <ControlLabel>Confirmation Code</ControlLabel>
-          <FormControl
-            autoFocus
-            type="tel"
-            value={this.state.confirmationCode}
-            onChange={this.handleChange}
-          />
-          <HelpBlock>Please check your email for the code.</HelpBlock>
-        </FormGroup>
-        <LoaderButton
-          block
-          bsSize="large"
-          disabled={!this.validateConfirmationForm()}
-          type="submit"
-          isLoading={this.state.isLoading}
-          text="Verify"
-          loadingText="Verifying…"
-        />
-      </form>
-    );
-  }
-
-  renderForm() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <h3>Create a New Employee</h3>
-        <FormGroup controlId="firstName" bsSize="large">
-          <ControlLabel>First Name </ControlLabel>
-          <FormControl
-            autoFocus
-            type="text"
-            value={this.state.firstName}
-            onChange={this.handleChange}
-          />
-        </FormGroup>
-        <FormGroup controlId="lastName" bsSize="large">
-          <ControlLabel>Last Name </ControlLabel>
-          <FormControl
-            autoFocus
-            type="text"
-            value={this.state.lastName}
-            onChange={this.handleChange}
-          />
-        </FormGroup>
-        <PhoneInput
-          placeholder="Phone number"
-          value={this.state.phone}
-          onChange={phone => this.setState({ phone })}
-        />
-        <FormGroup controlId="email" bsSize="large">
-          <ControlLabel>Email </ControlLabel>
-          <FormControl
-            autoFocus
-            type="email"
-            value={this.state.email}
-            onChange={this.handleChange}
-          />
-        </FormGroup>
-        <FormGroup controlId="password" bsSize="large">
-          <ControlLabel>Password </ControlLabel>
-          <FormControl
-            value={this.state.password}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </FormGroup>
-        <FormGroup controlId="confirmPassword" bsSize="large">
-          <ControlLabel>Confirm Password </ControlLabel>
-          <FormControl
-            value={this.state.confirmPassword}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </FormGroup>
-        <LoaderButton
-          block
-          bsSize="large"
-          disabled={!this.validateForm()}
-          type="submit"
-          isLoading={this.state.isLoading}
-          text="Signup"
-          loadingText="Signing up…"
-        />
-      </form>
-    );
-  }
 
   render() {
+    const { data, errors } = this.state;
     return (
-      <div className="Signup">
-        {this.state.newUser === null
-          ? this.renderForm()
-          : this.renderConfirmationForm()}
+      <div>
+        <Card title="Signup">
+          <Form>
+            <Form.Item error={!!errors.firstName}>
+              <Input
+                id="firstName"
+                type="text"
+                name="firstName"
+                value={data.firstName}
+                onChange={this.onChange}
+                placeholder="First Name"
+              />
+              {errors.firstName && <InlineError text={errors.firstName} />}
+            </Form.Item>
+            <Form.Item error={!!errors.lastName}>
+              <Input
+                id="lastName"
+                type="text"
+                name="lastName"
+                value={data.lastName}
+                onChange={this.onChange}
+                placeholder="Last Name"
+              />
+              {errors.lastName && <InlineError text={errors.lastName} />}
+            </Form.Item>
+            <Form.Item error={!!errors.phoneNumber}>
+              <Input
+                id="phoneNumber"
+                name="phoneNumber"
+                type="number"
+                placeholder="Phone number"
+                value={data.phoneNumber}
+                onChange={this.onChange}
+              />
+              {errors.phoneNumber && <InlineError text={errors.phoneNumber} />}
+            </Form.Item>
+            <Form.Item error={!!errors.email}>
+              <Input
+                id="email"
+                type="text"
+                name="email"
+                value={data.email}
+                onChange={this.onChange}
+                placeholder="email@rsrit.com"
+              />
+              {errors.email && <InlineError text={errors.email} />}
+            </Form.Item>
+            <Form.Item error={!!errors.password}>
+              <Input
+                id="password"
+                type="password"
+                name="password"
+                value={data.password}
+                onChange={this.onChange}
+                placeholder="Make it Secure"
+              />
+              {errors.password && <InlineError text={errors.password} />}
+            </Form.Item>
+            <Form.Item error={!!errors.confirmPassword}>
+              <Input
+                id="confirmPassword"
+                type="password"
+                name="confirmPassword"
+                value={data.confirmPassword}
+                onChange={this.onChange}
+                placeholder="Same as password"
+              />
+              {errors.confirmPassword && (
+                <InlineError text={errors.confirmPassword} />
+              )}
+            </Form.Item>
+            {/*  <Form.Item error={!!errors.userType}>
+                    <RadioGroup id="userType" type="userType" name="userType" onChange={this.onChangeRadio}>
+                        <Radio value={data.userType}>User</Radio>
+                        <Radio value={data.userType}>Admin</Radio>
+                    </RadioGroup>
+                {errors.userType && <InlineError text= {errors.userType}/>}
+                </Form.Item> 
+                <RadioGroup name="userType" options={options} onChange={this.onChange} value={data.userType} />
+                */}
+            <br />
+            <br />
+            <Button type="primary" onClick={this.onSubmit}>
+              Submit
+            </Button>
+          </Form>
+        </Card>
       </div>
     );
   }
 }
 
-export default Signup;
+Signup.propTypes = {};
+
+const mapStateToProps = state => {
+  return {
+    userObject: state.auth.user
+  };
+};
+
+export default connect(mapStateToProps)(Signup);
