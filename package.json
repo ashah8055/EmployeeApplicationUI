@@ -14,7 +14,7 @@
     "react-redux": "^5.1.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1",
+    "react-scripts": "^2.1.1",
     "react-widgets": "^4.4.6",
     "redux": "^4.0.1",
     "redux-form": "^7.4.2",
@@ -22,6 +22,7 @@
     "redux-saga": "^0.16.2",
     "reqwest": "^2.0.5",
     "save": "^2.3.2",
+    "shebang-command": "^1.2.0",
     "validator": "^10.8.0"
   },
   "scripts": {

@@ -1,19 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import Validator from "validator";
 import { Form, Input, Button, Card, Radio } from "antd";
 import InlineError from "../messages/InlineError";
 import { signupUser } from "../../redux/actions/home";
-import PhoneInput from "react-phone-number-input";
 import "./Signup.css";
-
-const RadioGroup = Radio.Group;
-
-const options = [
-  { label: "user", value: "user" },
-  { label: "admin", value: "admin" }
-];
 
 class Signup extends Component {
   constructor(props) {
@@ -132,7 +123,7 @@ class Signup extends Component {
                 name="password"
                 value={data.password}
                 onChange={this.onChange}
-                placeholder="Make it Secure"
+                placeholder="Password (Make it Secure)"
               />
               {errors.password && <InlineError text={errors.password} />}
             </Form.Item>
@@ -149,15 +140,7 @@ class Signup extends Component {
                 <InlineError text={errors.confirmPassword} />
               )}
             </Form.Item>
-            {/*  <Form.Item error={!!errors.userType}>
-                    <RadioGroup id="userType" type="userType" name="userType" onChange={this.onChangeRadio}>
-                        <Radio value={data.userType}>User</Radio>
-                        <Radio value={data.userType}>Admin</Radio>
-                    </RadioGroup>
-                {errors.userType && <InlineError text= {errors.userType}/>}
-                </Form.Item> 
-                <RadioGroup name="userType" options={options} onChange={this.onChange} value={data.userType} />
-                */}
+
             <br />
             <br />
             <Button type="primary" onClick={this.onSubmit}>

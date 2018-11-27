@@ -6,4 +6,12 @@ export const createRequestSubmit = (timesheet) => {
         timesheet
     };
 };
+export const createWorkingHourTimeSheet = (submitTimeSheet) => {
+
+        return {
+            type: Types.CREATE_TIMESHEET_WORKINGHOUR,
+            submitTimeSheet
+    
+        };
+};
 
