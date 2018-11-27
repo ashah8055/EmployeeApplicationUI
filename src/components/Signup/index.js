@@ -69,7 +69,7 @@ class Signup extends Component {
     if (!data.password) errors.password = "Can't be empty";
     if (!data.firstName) errors.firstName = "Can't be empty";
     if (!data.lastName) errors.lastName = "Can't be empty";
-    if (!data.phoneNumber) errors.phoneNumber = "Please Enter";
+    if (!data.phoneNumber) errors.phoneNumber = "Please Enter Number";
     if (data.password != data.confirmPassword)
       errors.confirmPassword = "Write the same password";
     return errors;
@@ -107,8 +107,8 @@ class Signup extends Component {
               <Input
                 id="phoneNumber"
                 name="phoneNumber"
-                type="number"
-                placeholder="Phone number"
+                type="tel"
+                placeholder="10 Digits Phone number"
                 value={data.phoneNumber}
                 onChange={this.onChange}
               />
