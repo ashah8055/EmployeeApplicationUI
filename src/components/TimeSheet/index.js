@@ -11,80 +11,71 @@ class timesheet extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            timesheetStatus: '1',
-            workinghours: {
-                "monday": {
-                    day: 'monday',
-                    workHours: '0',
-                    timeOffHour: '0',
-                    date: 'Test',
-                    billableHours: '0',
-                    totalHour: '0',
-                    notes: 'Test'
-
+            "workinghours": {
+                "daySheet": [{
+                    "day": "monday",
+                    "workHours": "0",
+                    "timeOffHour": "0",
+                    "date": "Test",
+                    "billableHours": "0",
+                    "totalHour": "0",
+                    "notes": "Test"
                 },
-                "tuesday": {
-                    day: 'tuesday',
-                    workHours: '0',
-                    timeOffHour: '0',
-                    date: '0',
-                    billableHours: '0',
-                    totalHour: '0',
-                    notes: 'Test'
-
+                {
+                    "day": "tuesday",
+                    "workHours": "0",
+                    "timeOffHour": "0",
+                    "date": "0",
+                    "billableHours": "0",
+                    "totalHour": "0",
+                    "notes": "Test"
                 },
-                "wednesday": {
-                    day: 'wednesday',
-                    workHours: '0',
-                    timeOffHour: '0',
-                    date: 'Test',
-                    billableHours: '0',
-                    totalHour: '0',
-                    notes: 'Test'
-
+                {
+                    "day": "wednesday",
+                    "workHours": "0",
+                    "timeOffHour": "0",
+                    "date": "Test",
+                    "billableHours": "0",
+                    "totalHour": "0",
+                    "notes": "Test"
                 },
-                "thursday": {
-                    day: 'thursday',
-                    workHours: '0',
-                    timeOffHour: '0',
-                    date: 'Test',
-                    billableHours: '0',
-                    totalHour: '0',
-                    notes: 'Test'
-
-                }, "friday": {
-                    day: 'friday',
-                    workHours: '0',
-                    timeOffHour: '0',
-                    date: 'Test',
-                    billableHours: '0',
-                    totalHour: '0',
-                    notes: 'Test'
-
-                }, "saturday": {
-                    day: 'saturday',
-                    workHours: '0',
-                    timeOffHour: '0',
-                    date: 'Test',
-                    billableHours: '0',
-                    totalHour: '0',
-                    notes: 'Test'
-
+                {
+                    "day": "thursday",
+                    "workHours": "0",
+                    "timeOffHour": "0",
+                    "date": "Test",
+                    "billableHours": "0",
+                    "totalHour": "0",
+                    "notes": "Test"
                 },
-                "sunday": {
-                    day: 'sunday',
-                    workHours: '0',
-                    timeOffHour: '0',
-                    date: 'Test',
-                    billableHours: '0',
-                    totalHour: '0',
-                    notes: 'Test'
-
+                {
+                    "day": "friday",
+                    "workHours": "0",
+                    "timeOffHour": "0",
+                    "date": "Test",
+                    "billableHours": "0",
+                    "totalHour": "0",
+                    "notes": "Test"
                 },
-
-            }
-            ,
-
+                {
+                    "day": "saturday",
+                    "workHours": "0",
+                    "timeOffHour": "0",
+                    "date": "Test",
+                    "billableHours": "0",
+                    "totalHour": "0",
+                    "notes": "Test"
+                },
+                {
+                    "day": "sunday",
+                    "workHours": "0",
+                    "timeOffHour": "0",
+                    "date": "Test",
+                    "billableHours": "0",
+                    "totalHour": "0",
+                    "notes": "Test"
+                }]
+            },
             Workingdetails: {
                 totalWeekWorkHours: '0',
                 totalWeekBillableHours: '0',
@@ -92,16 +83,20 @@ class timesheet extends Component {
                 totalWeekHours: '0',
                 comments: ''
             }
-        };
 
+        };
         this.baseState = this.state;
     }
 
 
     handlenum1Change = (evt) => {
+        const dayArray = { "monday": 0, "tuesday": 1, "wednesday": 2, "thrusday": 3, "friday": 4, "saturday": 5, "sunday": 6 };
         let Workingdetails = Object.assign({}, this.state.Workingdetails);
         let workinghours = Object.assign({}, this.state.workinghours);
-        let day = workinghours[evt.target.name]
+        //let day = workinghours[evt.target.name]
+        let day = workinghours.daySheet[dayArray[evt.target.name]];
+        //console.log("HA" + JSON.stringify(day));
+
         day.workHours = Number(evt.target.value);
         Workingdetails.totalWeekWorkHours = Number(Workingdetails.totalWeekWorkHours) + Number(evt.target.value);
         Workingdetails.totalWeekBillableHours = Workingdetails.totalWeekWorkHours;
@@ -110,12 +105,26 @@ class timesheet extends Component {
         day.totalHour = Number(day.timeOffHour) + Number(evt.target.value);;
 
         return this.setState({ workinghours, Workingdetails });
+        // let Workingdetails = Object.assign({}, this.state.Workingdetails);
+        // let workinghours = Object.assign({}, this.state.workinghours);
+        // let day = workinghours[evt.target.name]
+        // day.workHours = Number(evt.target.value);
+        // Workingdetails.totalWeekWorkHours = Number(Workingdetails.totalWeekWorkHours) + Number(evt.target.value);
+        // Workingdetails.totalWeekBillableHours = Workingdetails.totalWeekWorkHours;
+        // Workingdetails.totalWeekHours = Number(Workingdetails.totalWeekWorkHours) + Number(Workingdetails.totalWeekTimeoffHours);
+        // day.billableHours = Number(evt.target.value);
+        // day.totalHour = Number(day.timeOffHour) + Number(evt.target.value);;
+
+        // return this.setState({ workinghours, Workingdetails });
     }
 
     handlenum2Change = (evt) => {
+        const dayArray = { "monday": 0, "tuesday": 1, "wednesday": 2, "thrusday": 3, "friday": 4, "saturday": 5, "sunday": 6 };
+
         let Workingdetails = Object.assign({}, this.state.Workingdetails);
         let workinghours = Object.assign({}, this.state.workinghours);
-        let day = workinghours[evt.target.name];
+        // let day = workinghours[evt.target.name];
+        let day = workinghours.daySheet[dayArray[evt.target.name]];
         day.timeOffHour = Number(evt.target.value);
         Workingdetails.totalWeekTimeoffHours = Number(Workingdetails.totalWeekTimeoffHours) + Number(evt.target.value);
         day.totalHour = Number(day.workHours) + Number(evt.target.value);;
@@ -224,26 +233,26 @@ class timesheet extends Component {
                     </tr>
                     <tr>
                         <td>Total Bill</td>
-                        <td><input type='text' value={this.state.workinghours.monday.billableHours} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.tuesday.billableHours} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.wednesday.billableHours} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.thursday.billableHours} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.friday.billableHours} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.saturday.billableHours} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.sunday.billableHours} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[0].billableHours} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[1].billableHours} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[2].billableHours} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[3].billableHours} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[4].billableHours} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[5].billableHours} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[6].billableHours} readOnly /></td>
                         <td><input type='text' value={this.state.Workingdetails.totalWeekWorkHours} readOnly /></td>
 
 
                     </tr>
                     <tr>
                         <td>Total Hours</td>
-                        <td><input type='text' value={this.state.workinghours.monday.totalHour} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.tuesday.totalHour} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.wednesday.totalHour} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.thursday.totalHour} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.friday.totalHour} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.saturday.totalHour} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.sunday.totalHour} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[0].totalHour} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[1].totalHour} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[2].totalHour} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[3].totalHour} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[4].totalHour} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[5].totalHour} readOnly /></td>
+                        <td><input type='text' value={this.state.workinghours.daySheet[6].totalHour} readOnly /></td>
                         <td><input type='text' value={this.state.Workingdetails.totalWeekHours} readOnly /></td>
 
                     </tr>
