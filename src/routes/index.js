@@ -4,6 +4,7 @@ import Login from "../components/Login";
 import Home from "../components/Home";
 import CreateNewRequest from "../components/CreateNewRequest";
 import Signup from "../components/Signup";
+import AddEmployee from "../components/AddEmployee";
 
 export default ({ childProps }) => {
   return (
@@ -14,10 +15,16 @@ export default ({ childProps }) => {
         <Route exact path="/signup" render={props => <Signup {...props} />} />
         <Route
           exact
+          path="/addEmployee"
+          render={props => <AddEmployee {...props} />}
+        />
+
+        <Route
+          exact
           path="/createNewRequest"
           render={props => <CreateNewRequest {...props} />}
         />
-        
+
         <Redirect to="/login" />
       </Switch>
     </BrowserRouter>
