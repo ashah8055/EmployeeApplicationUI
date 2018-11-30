@@ -57,10 +57,11 @@ function* fetchTimeSheet(action) {
 
 }
 function* fetchTimeSheetCalander(action) {
-  console.log("TimeSheet Calander Action->" + JSON.stringify(action));
+  console.log("Submit Action->" + JSON.stringify(action));
   try {
     let formBody = {};
-    formBody.workingHour = action.submitTimeSheet.workinghours;
+    formBody.workinghours = action.submitTimeSheet.workinghours;
+    formBody.workingdetails = action.submitTimeSheet.workingdetails;
     const reqMethod = "POST";
     const loginUrl = 'http://localhost:8080/submitTimeSheet';
     const response = yield call(GetDataFromServer, loginUrl, 'POST', formBody);
@@ -76,15 +77,39 @@ function* fetchTimeSheetCalander(action) {
     // yield put({ type: Types.SERVER_CALL_FAILED, error: error.message });
     console.log(error);
   }
- 
+
 
 }
+function* fetchSaveTimeSheetCalander(action) {
+  console.log("Save Time Sheet Action->" + JSON.stringify(action));
+  try {
+    let formBody = {};
+    formBody.workinghours = action.submitTimeSheet.workinghours;
+    formBody.workingdetails = action.submitTimeSheet.workingdetails;
+    const reqMethod = "POST";
+    const loginUrl = 'http://localhost:8080/saveTimeSheet';
+    const response = yield call(GetDataFromServer, loginUrl, 'POST', formBody);
+    const result = yield response.json();
+    console.log('Result Json' + result);
+    if (result.error) {
+      yield put({ type: "LOGIN_USER_SERVER_REPONSE_ERROR", error: result.error });
+    } else {
+      yield put({ type: Types.LOGIN_USER_SERVER_RESPONSE_SUCCESS, result });
+    }
+  }
+  catch (error) {
+    // yield put({ type: Types.SERVER_CALL_FAILED, error: error.message });
+    console.log(error);
+  }
 
+
+}
 
 export default function* rootSaga(params) {
   yield takeEvery(Types.LOGIN_USER, fetchLoginUser);
   yield takeEvery(Types.CREATE_TIMESHEET, fetchTimeSheet);
   yield takeEvery(Types.CREATE_TIMESHEET_WORKINGHOUR, fetchTimeSheetCalander);
+  yield takeEvery(Types.CREATE_TIMESHEET_SAVE_WORKINGHOUR, fetchSaveTimeSheetCalander);
 
 
 }

@@ -4,7 +4,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createWorkingHourTimeSheet } from "../../redux/actions/CreateNewRequest";
-
+import { createSaveTimeSheet } from "../../redux/actions/CreateNewRequest";
 
 class timesheet extends Component {
 
@@ -81,8 +81,9 @@ class timesheet extends Component {
                 totalWeekBillableHours: '0',
                 totalWeekTimeoffHours: '0',
                 totalWeekHours: '0',
-                comments: ''
-            }
+                comments: '',
+                status: 'false'
+            },
 
         };
         this.baseState = this.state;
@@ -90,7 +91,7 @@ class timesheet extends Component {
 
 
     handlenum1Change = (evt) => {
-        const dayArray = { "monday": 0, "tuesday": 1, "wednesday": 2, "thrusday": 3, "friday": 4, "saturday": 5, "sunday": 6 };
+        const dayArray = { "monday": 0, "tuesday": 1, "wednesday": 2, "thursday": 3, "friday": 4, "saturday": 5, "sunday": 6 };
         let Workingdetails = Object.assign({}, this.state.Workingdetails);
         let workinghours = Object.assign({}, this.state.workinghours);
         //let day = workinghours[evt.target.name]
@@ -119,7 +120,7 @@ class timesheet extends Component {
     }
 
     handlenum2Change = (evt) => {
-        const dayArray = { "monday": 0, "tuesday": 1, "wednesday": 2, "thrusday": 3, "friday": 4, "saturday": 5, "sunday": 6 };
+        const dayArray = { "monday": 0, "tuesday": 1, "wednesday": 2, "thursday": 3, "friday": 4, "saturday": 5, "sunday": 6 };
 
         let Workingdetails = Object.assign({}, this.state.Workingdetails);
         let workinghours = Object.assign({}, this.state.workinghours);
@@ -141,9 +142,18 @@ class timesheet extends Component {
         data.workinghours = this.state.workinghours;
         data.workingdetails = this.state.Workingdetails;
         this.props.dispatch(createWorkingHourTimeSheet(data));
+        console.log("Submit click");
+    };
+    onSave = () => {
+
+        console.log("dad" + this.state.das);
+        let data = {};
+        data.workinghours = this.state.workinghours;
+        data.workingdetails = this.state.Workingdetails;
+        data.workingdetails.status = this.state.Workingdetails.status = "true";
+        this.props.dispatch(createSaveTimeSheet(data));
         console.log("Save click");
     };
-
     onReset = () => {
         this.setState(this.baseState);
     }
@@ -173,107 +183,111 @@ class timesheet extends Component {
 
 
         return (
-            <table className="table table-hover">
-                <thead>
+            <Form>
+                <table className="table table-hover">
+                    <thead>
 
-                    <tr>
-                        <th>Week</th>
-                        <th>Mon <input type='text' value={dt.startOf('week').format("DD-MMM")} readOnly /> </th>
-                        <th>Tue <input type='text' value={day2} readOnly /></th>
-                        <th>Wed <input type='text' value={day3} readOnly /></th>
-                        <th>Thur <input type='text' value={day4} readOnly /></th>
-                        <th>Fri <input type='text' value={day5} readOnly /></th>
-                        <th>Sat <input type='text' value={day6} readOnly /></th>
-                        <th>Sun <input type='text' value={day7} readOnly /></th>
-                        <th>TotalHr</th>
-                    </tr>
+                        <tr>
+                            <th>Week</th>
+                            <th>Mon <input type='text' value={dt.startOf('week').format("DD-MMM")} readOnly /> </th>
+                            <th>Tue <input type='text' value={day2} readOnly /></th>
+                            <th>Wed <input type='text' value={day3} readOnly /></th>
+                            <th>Thur <input type='text' value={day4} readOnly /></th>
+                            <th>Fri <input type='text' value={day5} readOnly /></th>
+                            <th>Sat <input type='text' value={day6} readOnly /></th>
+                            <th>Sun <input type='text' value={day7} readOnly /></th>
+                            <th>TotalHr</th>
+                        </tr>
 
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Hour Claim</td>
-                        <td>
-                            <Input size="small" placeholder="Enter Hr" name="monday" id="hMon" onChange={this.handlenum1Change} />
-                        </td>
-                        <td>
-                            <Input size="small" placeholder="Enter Hr" name="tuesday" id="hTue" onChange={this.handlenum1Change} />
-                        </td>
-                        <td>
-                            <Input size="small" placeholder="Enter Hr" name="wednesday" onChange={this.handlenum1Change} />
-                        </td>
-                        <td>
-                            <Input size="small" placeholder="Enter Hr" name="thursday" onChange={this.handlenum1Change} />
-                        </td>
-                        <td>
-                            <Input size="small" placeholder="Enter Hr" name="friday" onChange={this.handlenum1Change} />
-                        </td>
-                        <td>
-                            <Input size="small" placeholder="Enter Hr" name="saturday" onChange={this.handlenum1Change} />
-                        </td>
-                        <td>
-                            <Input size="small" placeholder="Enter Hr" name="sunday" onChange={this.handlenum1Change} />
-                        </td>
-                        <td>
-                            <input type='text' value={this.state.Workingdetails.totalWeekWorkHours} readOnly />
-                        </td>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Hour Claim</td>
+                            <td>
+                                <Input size="small" placeholder="Enter Hr" name="monday" id="hMon" onChange={this.handlenum1Change} />
+                            </td>
+                            <td>
+                                <Input size="small" placeholder="Enter Hr" name="tuesday" id="hTue" onChange={this.handlenum1Change} />
+                            </td>
+                            <td>
+                                <Input size="small" placeholder="Enter Hr" name="wednesday" onChange={this.handlenum1Change} />
+                            </td>
+                            <td>
+                                <Input size="small" placeholder="Enter Hr" name="thursday" onChange={this.handlenum1Change} />
+                            </td>
+                            <td>
+                                <Input size="small" placeholder="Enter Hr" name="friday" onChange={this.handlenum1Change} />
+                            </td>
+                            <td>
+                                <Input size="small" placeholder="Enter Hr" name="saturday" onChange={this.handlenum1Change} />
+                            </td>
+                            <td>
+                                <Input size="small" placeholder="Enter Hr" name="sunday" onChange={this.handlenum1Change} />
+                            </td>
+                            <td>
+                                <input type='text' value={this.state.Workingdetails.totalWeekWorkHours} readOnly />
+                            </td>
 
-                    </tr>
-                    <tr>
-                        <td>Time Off</td>
-                        <td><Input size="small" placeholder="Enter Time Off" name="monday" onChange={this.handlenum2Change} /></td>
-                        <td><Input size="small" placeholder="Enter Time Off" name="tuesday" onChange={this.handlenum2Change} /></td>
-                        <td><Input size="small" placeholder="Enter Time Off" name="wednesday" onChange={this.handlenum2Change} /></td>
-                        <td><Input size="small" placeholder="Enter Time Off" name="thursday" onChange={this.handlenum2Change} /></td>
-                        <td><Input size="small" placeholder="Enter Time Off" name="friday" onChange={this.handlenum2Change} /></td>
-                        <td><Input size="small" placeholder="Enter Time Off" name="saturday" onChange={this.handlenum2Change} /></td>
-                        <td><Input size="small" placeholder="Enter Time Off" name="sunday" onChange={this.handlenum2Change} /></td>
-                        <td><input type='text' value={this.state.Workingdetails.totalWeekTimeoffHours} readOnly /></td>
-
-
-                    </tr>
-                    <tr>
-                        <td>Total Bill</td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[0].billableHours} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[1].billableHours} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[2].billableHours} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[3].billableHours} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[4].billableHours} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[5].billableHours} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[6].billableHours} readOnly /></td>
-                        <td><input type='text' value={this.state.Workingdetails.totalWeekWorkHours} readOnly /></td>
+                        </tr>
+                        <tr>
+                            <td>Time Off</td>
+                            <td><Input size="small" placeholder="Enter Time Off" name="monday" onChange={this.handlenum2Change} /></td>
+                            <td><Input size="small" placeholder="Enter Time Off" name="tuesday" onChange={this.handlenum2Change} /></td>
+                            <td><Input size="small" placeholder="Enter Time Off" name="wednesday" onChange={this.handlenum2Change} /></td>
+                            <td><Input size="small" placeholder="Enter Time Off" name="thursday" onChange={this.handlenum2Change} /></td>
+                            <td><Input size="small" placeholder="Enter Time Off" name="friday" onChange={this.handlenum2Change} /></td>
+                            <td><Input size="small" placeholder="Enter Time Off" name="saturday" onChange={this.handlenum2Change} /></td>
+                            <td><Input size="small" placeholder="Enter Time Off" name="sunday" onChange={this.handlenum2Change} /></td>
+                            <td><input type='text' value={this.state.Workingdetails.totalWeekTimeoffHours} readOnly /></td>
 
 
-                    </tr>
-                    <tr>
-                        <td>Total Hours</td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[0].totalHour} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[1].totalHour} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[2].totalHour} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[3].totalHour} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[4].totalHour} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[5].totalHour} readOnly /></td>
-                        <td><input type='text' value={this.state.workinghours.daySheet[6].totalHour} readOnly /></td>
-                        <td><input type='text' value={this.state.Workingdetails.totalWeekHours} readOnly /></td>
+                        </tr>
+                        <tr>
+                            <td>Total Bill</td>
+                            <td>
+                                <input type='text' value={this.state.workinghours.daySheet[0].billableHours} readOnly />
+                            </td>
+                            <td><input type='text' value={this.state.workinghours.daySheet[1].billableHours} readOnly /></td>
+                            <td><input type='text' value={this.state.workinghours.daySheet[2].billableHours} readOnly /></td>
+                            <td><input type='text' value={this.state.workinghours.daySheet[3].billableHours} readOnly /></td>
+                            <td><input type='text' value={this.state.workinghours.daySheet[4].billableHours} readOnly /></td>
+                            <td><input type='text' value={this.state.workinghours.daySheet[5].billableHours} readOnly /></td>
+                            <td><input type='text' value={this.state.workinghours.daySheet[6].billableHours} readOnly /></td>
+                            <td><input type='text' value={this.state.Workingdetails.totalWeekWorkHours} readOnly /></td>
 
-                    </tr>
-                    <tr>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Notes</td>
-                        <td width="400" colSpan="8"><TextArea rows={4} /></td>
-                    </tr>
-                    <tr >
-                        <td colSpan="3"></td>
-                        <td ><Button type="primary" >Save</Button></td>
-                        <td ><Button type="primary" onClick={this.onSubmit}>Submit</Button></td>
-                        <td ><Button type="primary" onClick={this.onReset}>Reset</Button></td>
 
-                    </tr>
+                        </tr>
+                        <tr>
+                            <td>Total Hours</td>
+                            <td><input type='text' value={this.state.workinghours.daySheet[0].totalHour} readOnly /></td>
+                            <td><input type='text' value={this.state.workinghours.daySheet[1].totalHour} readOnly /></td>
+                            <td><input type='text' value={this.state.workinghours.daySheet[2].totalHour} readOnly /></td>
+                            <td><input type='text' value={this.state.workinghours.daySheet[3].totalHour} readOnly /></td>
+                            <td><input type='text' value={this.state.workinghours.daySheet[4].totalHour} readOnly /></td>
+                            <td><input type='text' value={this.state.workinghours.daySheet[5].totalHour} readOnly /></td>
+                            <td><input type='text' value={this.state.workinghours.daySheet[6].totalHour} readOnly /></td>
+                            <td><input type='text' value={this.state.Workingdetails.totalWeekHours} readOnly /></td>
 
-                </tbody>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Notes</td>
+                            <td width="400" colSpan="8"><TextArea rows={4} /></td>
+                        </tr>
+                        <tr >
+                            <td colSpan="3"></td>
+                            <td ><Button type="primary" onClick={this.onSave} >Save</Button></td>
+                            <td ><Button type="primary" onClick={this.onSubmit}>Submit</Button></td>
+                            <td ><Button type="primary" onClick={this.onReset}>Reset</Button></td>
 
-            </table>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+            </Form>
         );
     }
 

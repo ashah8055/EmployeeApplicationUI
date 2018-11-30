@@ -15,3 +15,13 @@ export const createWorkingHourTimeSheet = (submitTimeSheet) => {
 
     };
 };
+
+export const createSaveTimeSheet = (submitTimeSheet) => {
+
+    return {
+        type: Types.CREATE_TIMESHEET_SAVE_WORKINGHOUR,
+        submitTimeSheet
+
+    };
+};
+
