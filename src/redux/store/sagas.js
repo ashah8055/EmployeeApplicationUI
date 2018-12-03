@@ -41,7 +41,7 @@ function* fetchTimeSheet(action) {
 
     //const reqMethod = "POST";
     const reqMethod = "POST";
-    const loginUrl = 'http://localhost:8080/timesheet';
+    const loginUrl = 'http://localhost:8080/timesheet/create';
     const response = yield call(GetDataFromServer, loginUrl, 'POST', formBody);
     const result = yield response.json();
     console.log('Result Json' + result);

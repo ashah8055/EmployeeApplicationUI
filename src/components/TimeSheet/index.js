@@ -77,6 +77,7 @@ class timesheet extends Component {
                 }]
             },
             Workingdetails: {
+
                 totalWeekWorkHours: '0',
                 totalWeekBillableHours: '0',
                 totalWeekTimeoffHours: '0',

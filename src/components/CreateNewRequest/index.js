@@ -33,7 +33,8 @@ class CreateNewRequest extends Component {
                 client: 'Inhouse',
                 approver: 'Amar Shah',
                 endDate: '12/31/2018',
-                projectId: 'Test'
+                projectId: 'Test',
+                employeeId: '',
             }
         }
 
