@@ -123,14 +123,22 @@ function* saveEmployee(action) {
     formBody.firstName = action.firstName;
     formBody.lastName = action.lastName;
     formBody.phoneNumber = action.phoneNumber;
-    formBody.email = action.email;
-    formBody.password = action.password;
-    formBody.confirmPassword = action.confirmPassword;
-    //console.log(action.firstName);
+    formBody.primaryEmail = action.primaryEmail;
+    formBody.secondaryEmail = action.secondaryEmail;
+    formBody.address = action.address;
+    formBody.jobCode = action.jobCode;
+    formBody.jobTitle = action.jobTitle;
+    formBody.endClient = action.endClient;
+    formBody.startDate = formBody.startDate;
+    formBody.vendor = action.vendor;
+    formBody.projectId = formBody.projectId;
+    formBody.projectName = formBody.projectName;
+    formBody.managerName = formBody.managerName;
+    formBody.approverName = formBody.approverName;
 
     //const reqMethod = "POST";
-    const signUpUrl = "http://localhost:8080/create";
-    const response = yield call(GetDataFromServer, signUpUrl, "POST", formBody);
+    const AddEmpUrl = "http://localhost:8080/employee";
+    const response = yield call(GetDataFromServer, AddEmpUrl, "POST", formBody);
     const result = yield response.json();
     console.log("Result Json" + result);
     if (result.error) {
@@ -139,7 +147,10 @@ function* saveEmployee(action) {
         error: result.error
       });
     } else {
-      yield put({ type: Types.EMPLOYEE_SAVE_DATABASE_SERVER_RESPONSE_SUCCESS, result });
+      yield put({
+        type: Types.EMPLOYEE_SAVE_DATABASE_SERVER_RESPONSE_SUCCESS,
+        result
+      });
     }
   } catch (error) {
     // yield put({ type: Types.SERVER_CALL_FAILED, error: error.message });
