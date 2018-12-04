@@ -33,9 +33,14 @@ class Home extends Component {
               <br /> <Link to={{ pathname: "/addEmployee" }}>
                 Add Employee
               </Link>{" "}
+              <br />
+              <br />{" "}
+              <Link to={{ pathname: "/listEmployees" }}>
+                List of SignUp Employees
+              </Link>{" "}
             </Row>
           </Content>
-          
+
           <Footer>Footer</Footer>
         </Layout>
       </div>

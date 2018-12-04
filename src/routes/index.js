@@ -5,6 +5,7 @@ import Home from "../components/Home";
 import CreateNewRequest from "../components/CreateNewRequest";
 import Signup from "../components/Signup";
 import AddEmployee from "../components/AddEmployee";
+import ListEmployees from "../components/ListEmployees";
 
 export default ({ childProps }) => {
   return (
@@ -18,7 +19,11 @@ export default ({ childProps }) => {
           path="/addEmployee"
           render={props => <AddEmployee {...props} />}
         />
-
+        <Route
+          exact
+          path="/listEmployees"
+          render={props => <ListEmployees {...props} />}
+        />
         <Route
           exact
           path="/createNewRequest"

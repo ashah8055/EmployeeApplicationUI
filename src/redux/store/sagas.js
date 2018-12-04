@@ -2,49 +2,55 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import * as Types from "../actions/types";
 import { GetDataFromServer } from "../service";
 
-function* fetchLoginUser(action) {
-  try {
-    console.log("Action->" + JSON.stringify(action));
-    let formBody = {};
-    formBody.firstname = "asdfg"; //action.code;
-    formBody.lastname = "zxcvbb"; //action.provider;
-    formBody.age = "34";
-    //const reqMethod = "POST";
-    // const reqMethod = "GET";
-    const loginUrl =
-      'http://localhost:8080/employee?firstname="test"&lastname="test"&age=34';
-    const response = yield call(GetDataFromServer, loginUrl, "GET", formBody);
-    const result = yield response.json();
-    console.log("Result Json" + result);
-    if (result.error) {
-      yield put({
-        type: "LOGIN_USER_SERVER_REPONSE_ERROR",
-        error: result.error
-      });
-    } else {
-      yield put({ type: Types.LOGIN_USER_SERVER_RESPONSE_SUCCESS, result });
-    }
-  } catch (error) {
-    // yield put({ type: Types.SERVER_CALL_FAILED, error: error.message });
-    console.log(error);
-  }
-}
+// function* fetchLoginUser(action) {
+//   try {
+//     console.log("Action->" + JSON.stringify(action));
+//     let formBody = {};
+//     formBody.firstname = "asdfg"; //action.code;
+//     formBody.lastname = "zxcvbb"; //action.provider;
+//     formBody.age = "34";
+//     //const reqMethod = "POST";
+//     // const reqMethod = "GET";
+//     const loginUrl =
+//       'http://localhost:8080/employee?firstname="test"&lastname="test"&age=34';
+//     const response = yield call(GetDataFromServer, loginUrl, "GET", formBody);
+//     const result = yield response.json();
+//     console.log("Result Json" + result);
+//     if (result.error) {
+//       yield put({
+//         type: "LOGIN_USER_SERVER_REPONSE_ERROR",
+//         error: result.error
+//       });
+//     } else {
+//       yield put({ type: Types.LOGIN_USER_SERVER_RESPONSE_SUCCESS, result });
+//     }
+//   } catch (error) {
+//     // yield put({ type: Types.SERVER_CALL_FAILED, error: error.message });
+//     console.log(error);
+//   }
+// }
 
 function* signUpUser(action) {
   try {
-    console.log("Action->" + JSON.stringify(action));
+    console.log("Submit Action->" + JSON.stringify(action));
     let formBody = {};
-    formBody.firstName = action.firstName;
-    formBody.lastName = action.lastName;
-    formBody.phoneNumber = action.phoneNumber;
-    formBody.email = action.email;
-    formBody.password = action.password;
-    formBody.confirmPassword = action.confirmPassword;
+    formBody.user = action.user;
+    // formBody.firstName = action.firstName;
+    // formBody.lastName = action.lastName;
+    // formBody.phoneNumber = action.phoneNumber;
+    // formBody.email = action.email;
+    // formBody.password = action.password;
+    // formBody.confirmPassword = action.confirmPassword;
     //console.log(action.firstName);
 
     //const reqMethod = "POST";
     const signUpUrl = "http://localhost:8080/create";
-    const response = yield call(GetDataFromServer, signUpUrl, "POST", formBody);
+    const response = yield call(
+      GetDataFromServer,
+      signUpUrl,
+      "POST",
+      formBody.user
+    );
     const result = yield response.json();
     console.log("Result Json" + result);
     if (result.error) {
@@ -118,27 +124,18 @@ function* fetchTimeSheetCalander(action) {
 
 function* saveEmployee(action) {
   try {
-    console.log("Action->" + JSON.stringify(action));
+    console.log("Submit Action->" + JSON.stringify(action));
     let formBody = {};
-    formBody.firstName = action.firstName;
-    formBody.lastName = action.lastName;
-    formBody.phoneNumber = action.phoneNumber;
-    formBody.primaryEmail = action.primaryEmail;
-    formBody.secondaryEmail = action.secondaryEmail;
-    formBody.address = action.address;
-    formBody.jobCode = action.jobCode;
-    formBody.jobTitle = action.jobTitle;
-    formBody.endClient = action.endClient;
-    formBody.startDate = formBody.startDate;
-    formBody.vendor = action.vendor;
-    formBody.projectId = formBody.projectId;
-    formBody.projectName = formBody.projectName;
-    formBody.managerName = formBody.managerName;
-    formBody.approverName = formBody.approverName;
+    formBody.user = action.user;
 
     //const reqMethod = "POST";
     const AddEmpUrl = "http://localhost:8080/employee";
-    const response = yield call(GetDataFromServer, AddEmpUrl, "POST", formBody);
+    const response = yield call(
+      GetDataFromServer,
+      AddEmpUrl,
+      "POST",
+      formBody.user
+    );
     const result = yield response.json();
     console.log("Result Json" + result);
     if (result.error) {
@@ -159,7 +156,7 @@ function* saveEmployee(action) {
 }
 
 export default function* rootSaga(params) {
-  yield takeEvery(Types.LOGIN_USER, fetchLoginUser);
+  //yield takeEvery(Types.LOGIN_USER, fetchLoginUser);
   yield takeEvery(Types.CREATE_TIMESHEET, fetchTimeSheet);
   yield takeEvery(Types.CREATE_TIMESHEET_WORKINGHOUR, fetchTimeSheetCalander);
   yield takeEvery(Types.SIGNUP_USER, signUpUser);
