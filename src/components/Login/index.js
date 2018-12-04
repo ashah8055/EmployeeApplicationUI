@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Router } from "react-router";
 import { Link } from "react-router-dom";
-import ReactDOM from "react-dom";
-import { Form, Input, Button, Card, Checkbox, Icon } from "antd";
-import { loginUser, getBusinessUsersList } from "../../redux/actions/auth";
+import { Form, Input, Button, Select, Checkbox, Icon } from "antd";
+import { loginUser } from "../../redux/actions/auth";
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 class Login extends Component {
   constructor(props) {
@@ -16,7 +14,8 @@ class Login extends Component {
       data: {
         email: "testbiz@rsrit.com",
         password: "123456",
-        isBusiness: true
+        isBusiness: true,
+        role: "3"
       },
       loading: false,
       errors: {}
@@ -30,6 +29,12 @@ class Login extends Component {
 
     return null;
   }
+
+  onDropdownChange = (e, i) => {
+    let data = Object.assign({}, this.state.data);
+    data.role = e;
+    return this.setState({ data });
+  };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -75,6 +80,18 @@ class Login extends Component {
             />
           )}
         </FormItem>
+        <FormItem label="Role">
+          <Select
+            id="role"
+            name="role"
+            value={this.state.data.role}
+            onChange={this.onDropdownChange}
+          >
+            <Option value="1">Admin</Option>
+            <Option value="2">HR Manager</Option>
+            <Option value="3">Employee</Option>
+          </Select>
+        </FormItem>
         <FormItem>
           {getFieldDecorator("remember", {
             valuePropName: "checked",
@@ -90,7 +107,7 @@ class Login extends Component {
           >
             Log in
           </Button>
-          Or  <Link to="/signup">Sign Up</Link>
+          Or <Link to="/signup">Sign Up</Link>
         </FormItem>
       </Form>
     );

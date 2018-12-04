@@ -24,20 +24,35 @@ class Home extends Component {
               minHeight: 580
             }}
           >
-            <Row span={8}>
-              {" "}
-              <Link to={{ pathname: "/createNewRequest" }}>
-                Create Task
-              </Link>{" "}
-              <br />
-              <br /> <Link to={{ pathname: "/addEmployee" }}>
-                Add Employee
-              </Link>{" "}
-              <br />
-              <br />{" "}
-              <Link to={{ pathname: "/listEmployees" }}>
-                List of SignUp Employees
-              </Link>{" "}
+            <Row>
+              <Col span={8}>
+                {" "}
+                <Link to={{ pathname: "/createNewRequest" }}>
+                  Create TimeSheet
+                </Link>{" "}
+              </Col>
+            </Row>
+            <Row>
+              <Col span={8}>
+                {" "}
+                <Link to={{ pathname: "/TimeSheetCalander" }}>
+                  Monthly Timeshhet{" "}
+                </Link>{" "}
+              </Col>
+            </Row>
+            <Row>
+              <Col span={8}>
+                {" "}
+                <Link to={{ pathname: "/addEmployee" }}>Add Employee</Link>{" "}
+              </Col>
+            </Row>
+            <Row>
+              <Col span={8}>
+                {" "}
+                <Link to={{ pathname: "/listEmployees" }}>
+                  List of SignUp Employees
+                </Link>{" "}
+              </Col>
             </Row>
           </Content>
 
