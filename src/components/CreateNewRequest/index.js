@@ -51,6 +51,7 @@ class CreateNewRequest extends Component {
         this.setState({ viewTimesheet: !this.state.viewTimesheet });
         let data = {};
         data.TimeSheetDetails = this.state.TimeSheetDetails;
+        data.TimeSheetDetails.employeeId = Math.floor((Math.random() * 100) + 1);
         console.log("Details for time sheet details", data.TimeSheetDetails);
         //  data.reqId = this.state.TimeSheetDetails.reqId;
         this.props.dispatch(createRequestSubmit(data));

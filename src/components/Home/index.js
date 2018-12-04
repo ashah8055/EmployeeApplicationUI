@@ -27,10 +27,10 @@ class Home extends Component {
                     </Header>
                     <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 580 }}>
                         <Row>
-                            <Col span={8}> <Link to={{ pathname: "/createNewRequest" }}>Create Task</Link> </Col>
+                            <Col span={8}> <Link to={{ pathname: "/createNewRequest" }}>Create TimeSheet</Link> </Col>
                         </Row>
                         <Row>
-                            <Col span={8}> <Link to={{ pathname: "/TimeSheetCalander" }}>Montly Timeshhet </Link> </Col>
+                            <Col span={8}> <Link to={{ pathname: "/TimeSheetCalander" }}>Monthly Timeshhet </Link> </Col>
                         </Row>
                     </Content>
                     <Footer>Footer</Footer>

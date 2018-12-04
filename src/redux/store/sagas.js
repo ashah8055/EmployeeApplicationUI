@@ -41,7 +41,7 @@ function* fetchTimeSheet(action) {
 
     //const reqMethod = "POST";
     const reqMethod = "POST";
-    const loginUrl = 'http://localhost:8080/timesheet/create';
+    const loginUrl = 'http://localhost:8080/create';
     const response = yield call(GetDataFromServer, loginUrl, 'POST', formBody);
     const result = yield response.json();
     console.log('Result Json' + result);
@@ -60,10 +60,9 @@ function* fetchTimeSheetCalander(action) {
   console.log("Submit Action->" + JSON.stringify(action));
   try {
     let formBody = {};
-    formBody.workinghours = action.submitTimeSheet.workinghours;
     formBody.workingdetails = action.submitTimeSheet.workingdetails;
     const reqMethod = "POST";
-    const loginUrl = 'http://localhost:8080/submitTimeSheet';
+    const loginUrl = 'http://localhost:8080/submit';
     const response = yield call(GetDataFromServer, loginUrl, 'POST', formBody);
     const result = yield response.json();
     console.log('Result Json' + result);
@@ -84,10 +83,9 @@ function* fetchSaveTimeSheetCalander(action) {
   console.log("Save Time Sheet Action->" + JSON.stringify(action));
   try {
     let formBody = {};
-    formBody.workinghours = action.submitTimeSheet.workinghours;
     formBody.workingdetails = action.submitTimeSheet.workingdetails;
     const reqMethod = "POST";
-    const loginUrl = 'http://localhost:8080/saveTimeSheet';
+    const loginUrl = 'http://localhost:8080/timesheet/save';
     const response = yield call(GetDataFromServer, loginUrl, 'POST', formBody);
     const result = yield response.json();
     console.log('Result Json' + result);
