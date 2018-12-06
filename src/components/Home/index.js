@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Layout } from 'antd';
 import { Menu, Icon, Card, List, Button, Tabs, Row, Col, Badge } from 'antd';
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { listEmployee } from "../../redux/actions/auth";
 
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -16,6 +18,13 @@ class Home extends Component {
 
     }
 
+    componentDidMount() {
+        this.props.dispatch(listEmployee())
+    }
+
+
+
+
 
     handleClick = (e) => {
         console.log('click ', e);
@@ -27,6 +36,7 @@ class Home extends Component {
 
         return (
             <div>
+
                 <Layout>
                     <Header>
 
@@ -53,6 +63,8 @@ class Home extends Component {
                                 </Menu>
                             </Col>
                             <Col xs={2} sm={2} md={2} lg={2} xl={2}>
+                                {/* <p>{this.props.auth}</p> */}
+
                                 <Link to={{ pathname: "/login" }}> <Button size='large'><Icon type="logout" />Logout</Button></Link>
                             </Col>
 
@@ -63,7 +75,10 @@ class Home extends Component {
 
                         <Row>
                             <Col span={8}> <Link to={{ pathname: "/TimeSheetCalander" }}>Monthly Timesheet </Link> </Col>
+                            {/* <Col></Col> */}
+
                         </Row>
+
                     </Content>
                     <Footer><center><Icon type="copyright" />Reliable Software 2018</center></Footer>
                 </Layout >
@@ -75,4 +90,14 @@ class Home extends Component {
 
 }
 
-export default Home;
+function mapStateToProps(state) {
+    console.log("ggg" + JSON.stringify(state.auth.result));
+    return {
+
+        auth: state.auth.result
+
+    };
+}
+export default connect(mapStateToProps)(Home);
+
+//export default Home;

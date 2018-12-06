@@ -167,6 +167,8 @@ class timesheet extends Component {
 
         const { TextArea } = Input;
         let employeeId = this.props.timesheet.timesheet.TimeSheetDetails.employeeId;
+
+        console.log("" + JSON.stringify(this.props.auth));
         console.log("Employee" + employeeId);
         let dt = moment(this.props.timesheet.timesheet.TimeSheetDetails.selectWeek);
         let selectedDate = dt.startOf('week').format("MM/DD/YYYY");
@@ -300,7 +302,7 @@ class timesheet extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
+    console.log("ggg" + state);
     return {
 
         timesheet: state.timesheet

@@ -35,7 +35,9 @@ class Login extends Component {
         return null;
     }
 
-
+    componentDidMount() {
+        this.props.dispatch((loginUser(this.state.data.email, this.state.data.password)));
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();

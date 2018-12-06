@@ -2,8 +2,8 @@ import { takeEvery, call, put, select, take, fork, all, takeLatest } from 'redux
 import * as Types from '../actions/types';
 import { GetDataFromServer } from '../service';
 
-
-
+//const baseUrl = 'http://localhost:8080';
+const baseUrl = 'https://sleepy-basin-37644.herokuapp.com';
 function* fetchLoginUser(action) {
   try {
     console.log("Action->" + JSON.stringify(action));
@@ -13,9 +13,12 @@ function* fetchLoginUser(action) {
     formBody.age = "34"
     //const reqMethod = "POST";
     const reqMethod = "GET";
-    const loginUrl = 'http://localhost:8080/employee?firstname="test"&lastname="test"&age=34';
+    const loginUrl = baseUrl + '/veiw';
     const response = yield call(GetDataFromServer, loginUrl, '', '');
+
     const result = yield response.json();
+    console.log("ADS" + result.workingdetails);
+    console.log("Result ->" + JSON.stringify(result))
     console.log('Result Json' + result);
     if (result.error) {
       yield put({ type: "LOGIN_USER_SERVER_REPONSE_ERROR", error: result.error });
@@ -41,7 +44,7 @@ function* fetchTimeSheet(action) {
 
     //const reqMethod = "POST";
     const reqMethod = "POST";
-    const loginUrl = 'http://localhost:8080/create';
+    const loginUrl = baseUrl + '/timesheet/create';
     const response = yield call(GetDataFromServer, loginUrl, 'POST', formBody);
     const result = yield response.json();
     console.log('Result Json' + result);
@@ -62,7 +65,7 @@ function* fetchTimeSheetCalander(action) {
     let formBody = {};
     formBody.workingdetails = action.submitTimeSheet.workingdetails;
     const reqMethod = "POST";
-    const loginUrl = 'http://localhost:8080/submit';
+    const loginUrl = baseUrl + '/timesheet/submit';
     const response = yield call(GetDataFromServer, loginUrl, 'POST', formBody);
     const result = yield response.json();
     console.log('Result Json' + result);
@@ -85,7 +88,7 @@ function* fetchSaveTimeSheetCalander(action) {
     let formBody = {};
     formBody.workingdetails = action.submitTimeSheet.workingdetails;
     const reqMethod = "POST";
-    const loginUrl = 'http://localhost:8080/timesheet/save';
+    const loginUrl = baseUrl + '/timesheet/save';
     const response = yield call(GetDataFromServer, loginUrl, 'POST', formBody);
     const result = yield response.json();
     console.log('Result Json' + result);
