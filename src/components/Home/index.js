@@ -3,7 +3,6 @@ import { Layout } from 'antd';
 import { Menu, Icon, Card, List, Button, Tabs, Row, Col, Badge } from 'antd';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { listEmployee } from "../../redux/actions/auth";
 
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -17,12 +16,6 @@ class Home extends Component {
         }
 
     }
-
-    componentDidMount() {
-        this.props.dispatch(listEmployee())
-    }
-
-
 
 
 
@@ -75,6 +68,8 @@ class Home extends Component {
 
                         <Row>
                             <Col span={8}> <Link to={{ pathname: "/TimeSheetCalander" }}>Monthly Timesheet </Link> </Col>
+                            <Col span={8}> <Link to={{ pathname: "/Employee" }}>Employee</Link> </Col>
+
                             {/* <Col></Col> */}
 
                         </Row>
@@ -91,10 +86,10 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log("ggg" + JSON.stringify(state.auth.result));
+    console.log("ggg" + JSON.stringify(state.auth));
     return {
 
-        auth: state.auth.result
+        auth: state.auth
 
     };
 }

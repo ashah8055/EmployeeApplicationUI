@@ -2,8 +2,8 @@ import { takeEvery, call, put, select, take, fork, all, takeLatest } from 'redux
 import * as Types from '../actions/types';
 import { GetDataFromServer } from '../service';
 
-//const baseUrl = 'http://localhost:8080';
-const baseUrl = 'https://sleepy-basin-37644.herokuapp.com';
+const baseUrl = 'http://localhost:8080';
+//const baseUrl = 'https://sleepy-basin-37644.herokuapp.com';
 function* fetchLoginUser(action) {
   try {
     console.log("Action->" + JSON.stringify(action));
@@ -13,7 +13,7 @@ function* fetchLoginUser(action) {
     formBody.age = "34"
     //const reqMethod = "POST";
     const reqMethod = "GET";
-    const loginUrl = baseUrl + '/veiw';
+    const loginUrl = baseUrl + '/view';
     const response = yield call(GetDataFromServer, loginUrl, '', '');
 
     const result = yield response.json();
@@ -106,11 +106,24 @@ function* fetchSaveTimeSheetCalander(action) {
 
 }
 
+function* fetchListOfEmployee(action) {
+
+  let formBody = {};
+  const reqMethod = "GET";
+  const loginUrl = baseUrl + '/timesheet/veiw';
+  const response = yield call(GetDataFromServer, loginUrl, '', '');
+
+  const result = yield response.json();
+
+  yield put({ type: Types.LIST_EMPLOYEE_DETAILS, result });
+}
+
 export default function* rootSaga(params) {
   yield takeEvery(Types.LOGIN_USER, fetchLoginUser);
   yield takeEvery(Types.CREATE_TIMESHEET, fetchTimeSheet);
   yield takeEvery(Types.CREATE_TIMESHEET_WORKINGHOUR, fetchTimeSheetCalander);
   yield takeEvery(Types.CREATE_TIMESHEET_SAVE_WORKINGHOUR, fetchSaveTimeSheetCalander);
+  yield takeLatest(Types.LIST_EMPLOYEE_DETAILS, fetchListOfEmployee);
 
 
 }
