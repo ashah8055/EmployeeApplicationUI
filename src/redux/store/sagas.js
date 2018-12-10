@@ -106,7 +106,7 @@ function* fetchSaveTimeSheetCalander(action) {
 
 }
 
-function* fetchListOfEmployee(action) {
+function* fetchListOfEmployee() {
 
   let formBody = {};
   const reqMethod = "GET";
@@ -114,16 +114,20 @@ function* fetchListOfEmployee(action) {
   const response = yield call(GetDataFromServer, loginUrl, '', '');
 
   const result = yield response.json();
-
-  yield put({ type: Types.LIST_EMPLOYEE_DETAILS, result });
+  console.log("Result->" + JSON.stringify(result));
+  if (result.error) {
+    yield put({ type: Types.LIST_EMPLOYEE_DETAILS_SERVER__RESPONSE_ERROR, result });
+  } else {
+    yield put({ type: Types.LIST_EMPLOYEE_DETAILS_SERVER_RESPONSE_SUCESS, result });
+  }
 }
 
 export default function* rootSaga(params) {
-  yield takeEvery(Types.LOGIN_USER, fetchLoginUser);
-  yield takeEvery(Types.CREATE_TIMESHEET, fetchTimeSheet);
-  yield takeEvery(Types.CREATE_TIMESHEET_WORKINGHOUR, fetchTimeSheetCalander);
-  yield takeEvery(Types.CREATE_TIMESHEET_SAVE_WORKINGHOUR, fetchSaveTimeSheetCalander);
+  yield takeLatest(Types.LOGIN_USER, fetchLoginUser);
+  yield takeLatest(Types.CREATE_TIMESHEET, fetchTimeSheet);
+  yield takeLatest(Types.CREATE_TIMESHEET_WORKINGHOUR, fetchTimeSheetCalander);
+  yield takeLatest(Types.CREATE_TIMESHEET_SAVE_WORKINGHOUR, fetchSaveTimeSheetCalander);
   yield takeLatest(Types.LIST_EMPLOYEE_DETAILS, fetchListOfEmployee);
-
+  console.log("ROOT SAGA");
 
 }

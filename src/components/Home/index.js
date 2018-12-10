@@ -3,6 +3,8 @@ import { Layout } from 'antd';
 import { Menu, Icon, Card, List, Button, Tabs, Row, Col, Badge } from 'antd';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
+import { listEmployee } from "../../redux/actions/Employee_list";
+
 
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -70,8 +72,6 @@ class Home extends Component {
                             <Col span={8}> <Link to={{ pathname: "/TimeSheetCalander" }}>Monthly Timesheet </Link> </Col>
                             <Col span={8}> <Link to={{ pathname: "/Employee" }}>Employee</Link> </Col>
 
-                            {/* <Col></Col> */}
-
                         </Row>
 
                     </Content>
@@ -93,6 +93,7 @@ function mapStateToProps(state) {
 
     };
 }
-export default connect(mapStateToProps)(Home);
+// export default Home;
 
-//export default Home;
+
+export default connect(mapStateToProps)(Home);

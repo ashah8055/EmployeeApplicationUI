@@ -24,9 +24,6 @@ class Login extends Component {
         }
     }
 
-    componentDidMount() {
-
-    }
 
     static getDerivedStateFromProps(props, state) {
 
@@ -36,7 +33,7 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        this.props.dispatch((loginUser(this.state.data.email, this.state.data.password)));
+        // this.props.dispatch((loginUser(this.state.data.email, this.state.data.password)));
     }
 
     handleSubmit = (e) => {
