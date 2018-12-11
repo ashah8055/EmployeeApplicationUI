@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Redirect, BrowserRouter} from "react-router-dom";
+import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import Login from "../components/Login";
 import Home from "../components/Home";
 import CreateNewRequest from "../components/CreateNewRequest";
@@ -7,8 +7,9 @@ import Signup from "../components/Signup";
 import AddEmployee from "../components/AddEmployee";
 import ListEmployees from "../components/ListEmployees";
 import TimeSheetCalander from "../components/TimeSheet_Calender";
+import Search from "../components/Search";
 
-export default ({ childProps }) => {
+export default () => {
   return (
     <BrowserRouter>
       <Switch>
@@ -36,6 +37,7 @@ export default ({ childProps }) => {
           path="/createNewRequest"
           render={props => <CreateNewRequest {...props} />}
         />
+        <Route exact path="/search" render={props => <Search {...props} />} />
 
         <Redirect to="/login" />
       </Switch>

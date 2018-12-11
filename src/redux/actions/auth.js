@@ -60,10 +60,21 @@ export const validateUserSuccess = response => ({
   type: Types.VALIDATE_USER_SERVER_RESPONSE_SUCCESS,
   response
 });
+
 export const validateUserFailure = response => ({
   type: Types.VALIDATE_USER_SERVER_RESPONSE_ERROR,
   response
 });
+
+export const getUsersList = () => ({
+  type:Types.GET_USERS_LIST  
+});
+
+export const getUsersListSuccessResponse = (response) => ({
+  type:Types.GET_USERS_LIST_SERVER_RESPONSE_SUCCESS,
+  response  
+})
+
 
 export const logoutUserSuccess = response => ({
   type: Types.LOGOUT_USER_SERVER_RESPONSE_SUCCESS,

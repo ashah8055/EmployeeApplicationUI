@@ -12,8 +12,8 @@ class Login extends Component {
     // defining the state to the component
     this.state = {
       data: {
-        email: "testbiz@rsrit.com",
-        password: "123456",
+        email: "",
+        password: "",
         isBusiness: true,
         role: "3"
       },
@@ -29,12 +29,6 @@ class Login extends Component {
 
     return null;
   }
-
-  onDropdownChange = (e, i) => {
-    let data = Object.assign({}, this.state.data);
-    data.role = e;
-    return this.setState({ data });
-  };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -58,58 +52,65 @@ class Login extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
-        <FormItem>
-          {getFieldDecorator("userName", {
-            rules: [{ required: true, message: "Please input your username!" }]
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-              placeholder="Username"
+      <centre>
+        <Form onSubmit={this.handleSubmit} className="login-form">
+          <div>
+            <img
+              src="https://rsrit.com/wp-content/uploads/2017/12/logo_dark.png"
+              width="200px"
+              height="60px"
             />
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator("password", {
-            rules: [{ required: true, message: "Please input your Password!" }]
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
-              type="password"
-              placeholder="Password"
-            />
-          )}
-        </FormItem>
-        <FormItem label="Role">
-          <Select
-            id="role"
-            name="role"
-            value={this.state.data.role}
-            onChange={this.onDropdownChange}
-          >
-            <Option value="1">Admin</Option>
-            <Option value="2">HR Manager</Option>
-            <Option value="3">Employee</Option>
-          </Select>
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator("remember", {
-            valuePropName: "checked",
-            initialValue: true
-          })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="login-form-button"
-          >
-            Log in
-          </Button>
-          Or <Link to="/signup">Sign Up</Link>
-        </FormItem>
-      </Form>
+            <br />
+          </div>
+          <FormItem>
+            {getFieldDecorator("userName", {
+              rules: [
+                { required: true, message: "Please input your username!" }
+              ]
+            })(
+              <Input
+                prefix={
+                  <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
+                }
+                placeholder="Username"
+              />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator("password", {
+              rules: [
+                { required: true, message: "Please input your Password!" }
+              ]
+            })(
+              <Input
+                prefix={
+                  <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
+                }
+                type="password"
+                placeholder="Password"
+              />
+            )}
+          </FormItem>
+
+          <FormItem>
+            {getFieldDecorator("remember", {
+              valuePropName: "checked",
+              initialValue: true
+            })(<Checkbox>Remember me</Checkbox>)}
+            <a className="login-form-forgot" href="">
+              Forgot password
+            </a>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Log in
+            </Button>
+            Or <Link to="/signup">Sign Up</Link>
+          </FormItem>
+        </Form>
+      </centre>
     );
   }
 }
