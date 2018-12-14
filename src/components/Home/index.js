@@ -14,7 +14,7 @@ class Home extends Component {
         super(props);
 
         this.state = {
-            current: 'mail'
+            current: 'home'
         }
 
     }
@@ -49,11 +49,14 @@ class Home extends Component {
                                     <Menu.Item >
                                         <Link to={{ pathname: "/home" }}> <img src='https://rsrit.com/wp-content/uploads/2017/12/logo_dark.png' width="200px" height="60px"></img></Link>
                                     </Menu.Item>
-                                    <Menu.Item key="mail">
-                                        <Link to={{ pathname: "/home" }}><Icon type="mail" />Home</Link>
+                                    <Menu.Item key="home">
+                                        <Link to={{ pathname: "/home" }}><Icon type="home" />Home</Link>
                                     </Menu.Item>
                                     <Menu.Item key="timesheet">
                                         <Link to={{ pathname: "/createNewRequest" }}><Icon type="clock-circle" />TimeSheet</Link>
+                                    </Menu.Item>
+                                    <Menu.Item key="project">
+                                        <Link to={{ pathname: "/Project" }}><Icon type="project" />Project</Link>
                                     </Menu.Item>
                                 </Menu>
                             </Col>

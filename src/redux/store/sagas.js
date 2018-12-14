@@ -2,8 +2,8 @@ import { takeEvery, call, put, select, take, fork, all, takeLatest } from 'redux
 import * as Types from '../actions/types';
 import { GetDataFromServer } from '../service';
 
-const baseUrl = 'http://localhost:8080';
-//const baseUrl = 'https://sleepy-basin-37644.herokuapp.com';
+//const baseUrl = 'http://localhost:8080';
+const baseUrl = 'https://sleepy-basin-37644.herokuapp.com';
 function* fetchLoginUser(action) {
   try {
     console.log("Action->" + JSON.stringify(action));
