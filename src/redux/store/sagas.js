@@ -110,7 +110,7 @@ function* fetchListOfEmployee() {
 
   let formBody = {};
   const reqMethod = "GET";
-  const loginUrl = baseUrl + '/timesheet/veiw';
+  const loginUrl = baseUrl + '/view';
   const response = yield call(GetDataFromServer, loginUrl, '', '');
 
   const result = yield response.json();

@@ -54,16 +54,27 @@ class CreateNewRequest extends Component {
         return this.setState({ TimeSheetDetails });
     }
 
-    onSubmit = () => {
-        this.setState({ viewTimesheet: !this.state.viewTimesheet });
-        let data = {};
-        data.TimeSheetDetails = this.state.TimeSheetDetails;
-        data.TimeSheetDetails.employeeId = Math.floor((Math.random() * 100) + 1);
-        console.log("Details for time sheet details", data.TimeSheetDetails);
-        //  data.reqId = this.state.TimeSheetDetails.reqId;
-        this.props.dispatch(createRequestSubmit(data));
-        //this.props.dispatch(createWorkingHourTimeSheet(data));
-        console.log("Submit click");
+    onSubmit = (e) => {
+
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+                this.setState({ viewTimesheet: !this.state.viewTimesheet });
+                let data = {};
+                data.TimeSheetDetails = this.state.TimeSheetDetails;
+                data.TimeSheetDetails.employeeId = Math.floor((Math.random() * 100) + 1);
+                console.log("Details for time sheet details", data.TimeSheetDetails);
+                //  data.reqId = this.state.TimeSheetDetails.reqId;
+                this.props.dispatch(createRequestSubmit(data));
+                //this.props.dispatch(createWorkingHourTimeSheet(data));
+                console.log("Submit click");
+            }
+
+        });
+
+
+
     };
 
     onSelectWeekChange = (e, date) => {
@@ -79,6 +90,22 @@ class CreateNewRequest extends Component {
 
     render() {
         const { WeekPicker } = DatePicker;
+        const { getFieldDecorator } = this.props.form;
+        const formItemLayout = {
+            labelCol: {
+                xl: { span: 24 },
+                lg: { span: 24 },
+                xs: { span: 24 },
+                sm: { span: 8 },
+            },
+            wrapperCol: {
+                xl: { span: 24 },
+                lg: { span: 24 },
+                xs: { span: 24 },
+                sm: { span: 16 },
+            },
+        };
+
         // const weekpicker = DatePicker.WeekPicker;
 
 
@@ -186,14 +213,26 @@ class CreateNewRequest extends Component {
 
                                 <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                                     <Card >
+
                                         <FormItem
-
-                                            label="Week Picker"
-                                            hasFeedback
-
+                                            {...formItemLayout}
                                         >
-                                            <WeekPicker onChange={this.onSelectWeekChange} defaultValue={this.state.TimeSheetDetails.selectWeek} placeholder="Select week" />
+                                            {getFieldDecorator('testNumber', {
+
+
+                                                rules: [
+                                                    {
+                                                        required: true, message: 'Please Select Week!',
+                                                    }
+
+                                                ]
+                                            })(
+                                                <WeekPicker onChange={this.onSelectWeekChange} defaultValue={this.state.TimeSheetDetails.selectWeek} placeholder="Select week" />
+
+                                            )}
                                         </FormItem>
+
+
 
                                     </Card>
                                 </Col>
@@ -236,8 +275,9 @@ const mapStateToProps = state => {
 
     };
 };
+const WrappedRegistrationForm = Form.create()(CreateNewRequest);
 
-export default connect(mapStateToProps)(CreateNewRequest);
+export default connect(mapStateToProps)(WrappedRegistrationForm);
 
 
 
