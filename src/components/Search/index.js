@@ -1,9 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Card, List, Form, Input, Menu, Button, Icon, Col, Layout } from "antd";
+import {
+  Card,
+  Modal,
+  List,
+  Form,
+  Checkbox,
+  Input,
+  Menu,
+  Button,
+  Icon,
+  Col,
+  Layout
+} from "antd";
 import { Link } from "react-router-dom";
 import InlineError from "../messages/InlineError";
-import { searchEmp } from "../../redux/actions/Get_List";
+import { getEmp, searchEmp } from "../../redux/actions/Get_List";
 
 const { Header, Content } = Layout;
 
@@ -17,6 +29,7 @@ class Search extends Component {
         firstName: ""
       },
       loading: false,
+      visible: false,
       errors: {}
     };
   }
@@ -26,10 +39,28 @@ class Search extends Component {
       data: { ...this.state.data, [e.target.name]: e.target.value }
     });
 
+  onCheck(e) {
+    console.log(`checked = ${e.target.checked}`);
+    console.log(e.target.value);
+  }
+
   handleClick = e => {
     console.log("click ", e);
     this.setState({
       current: e.key
+    });
+  };
+  handleOk = e => {
+    console.log(e);
+    this.setState({
+      visible: false
+    });
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false
     });
   };
 
@@ -39,9 +70,27 @@ class Search extends Component {
     return errors;
   };
 
-  onSearch = e => {
+  onShow = e => {
+    this.setState({
+      visible: true
+    });
+    const { firstName, lastName, primaryEmail } = this.state.data;
+    this.props.dispatch(
+      getEmp({
+        firstName: firstName,
+        lastName: lastName,
+        primaryEmail: primaryEmail
+      })
+    );
+
+    this.props.history.push("/search");
+  };
+  onFilter = e => {
     const errors = this.validate(this.state.data);
-    this.setState({ errors });
+    this.setState({
+      visible: true,
+      errors
+    });
     if (Object.keys(errors).length === 0) {
       const { firstName } = this.state.data;
       this.props.dispatch(
@@ -90,45 +139,63 @@ class Search extends Component {
             </Link>
           </Col>
         </Header>
-        <Card title="Search Employee">
-          <Form>
-            <Col span={8}>
-              <Form.Item error={!!errors.firstName}>
-                <Input
-                  id="firstName"
-                  type="text"
-                  name="firstName"
-                  value={data.firstName}
-                  onChange={this.onChange}
-                  placeholder="Enter Name"
-                />
-                {errors.firstName && <InlineError text={errors.firstName} />}
-              </Form.Item>
-              <Button type="primary" onClick={this.onSearch}>
-                Search
-              </Button>
-            </Col>
-            <Col xs={22} sm={22} md={22} lg={22} xl={22}>
-              <Content
-                style={{
-                  margin: "24px 16px",
-                  padding: 24,
-                  background: "#fff",
-                  minHeight: 580
-                }}
-              >
-                <List
-                  header={<div>Employee Details</div>}
-                  bordered
-                  dataSource={data1}
-                  renderItem={item => (
-                    <List.Item>{item.primaryEmail}</List.Item>
-                  )}
-                />
-              </Content>
-            </Col>
-          </Form>
-        </Card>
+        <Button type="primary" onClick={this.onShow}>
+          Search{" "}
+        </Button>
+        <Modal
+          title="Employee Details"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <Card title="Search Employee">
+            <Form>
+              <Col span={18}>
+                <Form.Item error={!!errors.firstName}>
+                  <Input
+                    id="firstName"
+                    type="text"
+                    name="firstName"
+                    value={data.firstName}
+                    onChange={this.onChange}
+                    placeholder="Enter Name"
+                  />
+                  {errors.firstName && <InlineError text={errors.firstName} />}
+                </Form.Item>
+                <Button type="primary" onClick={this.onFilter}>
+                  Filter{" "}
+                </Button>
+
+                <Content
+                  style={{
+                    margin: "24px 16px",
+                    padding: 24,
+                    background: "#fff",
+                    minHeight: 100
+                  }}
+                >
+                  <List
+                    bordered
+                    dataSource={data1}
+                    renderItem={item => (
+                      <List.Item>
+                        <Checkbox
+                          onChange={this.onCheck}
+                          value={item.firstname}
+                        />
+                        {item.firstName}
+                        {"    ||    "}
+                        {item.lastName}
+                        {"    ||    "}
+                        {item.primaryEmail}
+                      </List.Item>
+                    )}
+                  />
+                </Content>
+              </Col>
+            </Form>
+          </Card>
+        </Modal>
       </div>
     );
   }

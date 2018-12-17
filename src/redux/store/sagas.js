@@ -163,16 +163,11 @@ function* saveEmployee(action) {
   }
 }
 
-function* searchEmployee(action) {
-  console.log("Search Action->" + JSON.stringify(action));
-  let formBody = {};
-  formBody.result = action.result;
-  let firstName = {};
-  firstName = action.result.firstName;
+function* getEmployee(action) {
+  console.log("Get Action->" + JSON.stringify(action));
 
-  console.log(firstName);
   const reqMethod = "GET";
-  const loginUrl = `http://localhost:8080/search/${firstName}`;
+  const loginUrl = "http://localhost:8080/listEmployees";
 
   const response = yield call(GetDataFromServer, loginUrl, "", "");
 
@@ -186,6 +181,27 @@ function* searchEmployee(action) {
   }
 }
 
+function* searchEmployee(action) {
+  console.log("Search Action->" + JSON.stringify(action));
+  
+  let firstName = {};
+  firstName = action.result.firstName;
+
+  const reqMethod = "GET";
+  const loginUrl = `http://localhost:8080/search/${firstName}`;
+
+  const response = yield call(GetDataFromServer, loginUrl, "", "");
+
+  const result = yield response.json();
+
+  console.log("Result->" + JSON.stringify(result));
+  if (result.error) {
+    yield put({ type: Types.SEARCH_EMP_ERROR, result });
+  } else {
+    yield put({ type: Types.SEARCH_EMP_SUCCESS, result });
+  }
+}
+
 export default function* rootSaga(params) {
   yield takeEvery(Types.LOGIN_USER, fetchLoginUser);
   yield takeEvery(Types.CREATE_TIMESHEET, fetchTimeSheet);
@@ -196,5 +212,6 @@ export default function* rootSaga(params) {
   );
   yield takeEvery(Types.SIGNUP_USER, signUpUser);
   yield takeEvery(Types.EMPLOYEE_SAVE_DATABASE, saveEmployee);
-  yield takeEvery(Types.GET_EMPLOYEE_LIST, searchEmployee);
+  yield takeEvery(Types.GET_EMPLOYEE_LIST, getEmployee);
+  yield takeEvery(Types.SEARCH_EMP, searchEmployee);
 }
