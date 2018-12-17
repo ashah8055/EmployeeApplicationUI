@@ -26,7 +26,9 @@ class Search extends Component {
     this.state = {
       current: "mail",
       data: {
-        firstName: ""
+        firstName: "",
+        lastName: "",
+        primaryEmail: ""
       },
       loading: false,
       visible: false,
@@ -92,10 +94,12 @@ class Search extends Component {
       errors
     });
     if (Object.keys(errors).length === 0) {
-      const { firstName } = this.state.data;
+      const { firstName, lastName, primaryEmail } = this.state.data;
       this.props.dispatch(
         searchEmp({
-          firstName: firstName
+          firstName: firstName,
+          lastName: lastName,
+          primaryEmail: primaryEmail
         })
       );
 
@@ -179,10 +183,7 @@ class Search extends Component {
                     dataSource={data1}
                     renderItem={item => (
                       <List.Item>
-                        <Checkbox
-                          onChange={this.onCheck}
-                          value={item.firstname}
-                        />
+                        <Checkbox onChange={this.onCheck} value={data} />
                         {item.firstName}
                         {"    ||    "}
                         {item.lastName}

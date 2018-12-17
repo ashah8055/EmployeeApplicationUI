@@ -16,7 +16,7 @@ const getEmployeeList = (state, action) => {
     newState = Object.assign({}, state, {
       result: JSON.parse(JSON.stringify(action.result))
     });
-    console.log("New" + JSON.stringify(newState));
+  //  console.log("New" + JSON.stringify(newState));
   }
   return { ...newState };
 };
@@ -40,7 +40,7 @@ const handleSearchEmp = (state, action) => {
     newState = Object.assign({}, state, {
       result: JSON.parse(JSON.stringify(action.result))
     });
-    console.log("New" + JSON.stringify(newState));
+   // console.log("New" + JSON.stringify(newState));
   }
   return { ...newState };
 };

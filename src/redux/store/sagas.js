@@ -107,7 +107,7 @@ function* signUpUser(action) {
     let formBody = {};
     formBody.user = action.user;
 
-    const signUpUrl = "http://localhost:8080/create";
+    const signUpUrl = "http://localhost:8080/user/create";
     const response = yield call(
       GetDataFromServer,
       signUpUrl,
@@ -137,7 +137,7 @@ function* saveEmployee(action) {
     formBody.user = action.user;
 
     //const reqMethod = "POST";
-    const AddEmpUrl = "http://localhost:8080/employee";
+    const AddEmpUrl = "http://localhost:8080/employee/create";
     const response = yield call(
       GetDataFromServer,
       AddEmpUrl,
@@ -167,7 +167,7 @@ function* getEmployee(action) {
   console.log("Get Action->" + JSON.stringify(action));
 
   const reqMethod = "GET";
-  const loginUrl = "http://localhost:8080/listEmployees";
+  const loginUrl = "http://localhost:8080/employee/listEmployees";
 
   const response = yield call(GetDataFromServer, loginUrl, "", "");
 
@@ -183,12 +183,12 @@ function* getEmployee(action) {
 
 function* searchEmployee(action) {
   console.log("Search Action->" + JSON.stringify(action));
-  
+
   let firstName = {};
   firstName = action.result.firstName;
 
   const reqMethod = "GET";
-  const loginUrl = `http://localhost:8080/search/${firstName}`;
+  const loginUrl = `http://localhost:8080/employee/search/${firstName}`;
 
   const response = yield call(GetDataFromServer, loginUrl, "", "");
 
