@@ -74,6 +74,7 @@ class Home extends Component {
                         <Row>
                             <Col span={8}> <Link to={{ pathname: "/TimeSheetCalander" }}>Monthly Timesheet </Link> </Col>
                             <Col span={8}> <Link to={{ pathname: "/Employee" }}>Employee</Link> </Col>
+                            <Col span={8}> <Link to={{ pathname: "/addEmployee" }}>Add Employee</Link> </Col>
 
                         </Row>
 

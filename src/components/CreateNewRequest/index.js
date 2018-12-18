@@ -124,7 +124,6 @@ class CreateNewRequest extends Component {
                                     <Menu.Item >
                                         <Link to={{ pathname: "/home" }}> <img src='https://rsrit.com/wp-content/uploads/2017/12/logo_dark.png' width="200px" height="60px"></img></Link>
                                     </Menu.Item>
-
                                     <Menu.Item key="home">
                                         <Link to={{ pathname: "/home" }}><Icon type="home" />Home</Link>
                                     </Menu.Item>
