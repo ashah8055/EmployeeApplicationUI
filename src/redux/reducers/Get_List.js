@@ -50,12 +50,18 @@ const searchError = state => {
     return { ...newState };
 };
 
+const getEmployeeListSelected = (state, action) => {
+
+};
+
 export default (state = initialUserObj, action = {}) => {
     switch (action.type) {
         case Types.GET_EMPLOYEE_LIST:
             return { ...state };
         case Types.GET_EMPLOYEE_LIST_SUCCESS_RESPONSE:
             return getEmployeeList(state, action);
+        case Types.GET_EMPLOYEE_SELECTED_LIST:
+            return getEmployeeListSelected(state, action)
         case Types.GET_EMPLOYEE_LIST_ERROR_RESPONSE:
             return getEmployeeListError(state);
         case Types.SEARCH_EMP:

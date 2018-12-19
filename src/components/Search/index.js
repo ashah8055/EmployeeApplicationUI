@@ -16,7 +16,8 @@ class Search extends Component {
             data: {
                 firstName: "",
                 lastName: "",
-                primaryEmail: ""
+                primaryEmail: "",
+                checkedEmp: false
             },
             loading: false,
             visible: false,
@@ -65,12 +66,13 @@ class Search extends Component {
         this.setState({
             visible: true
         });
-        const { firstName, lastName, primaryEmail } = this.state.data;
+        const { firstName, lastName, primaryEmail, checkedEmp } = this.state.data;
         this.props.dispatch(
             getEmp({
                 firstName: firstName,
                 lastName: lastName,
-                primaryEmail: primaryEmail
+                primaryEmail: primaryEmail,
+                checkedEmp
             })
         );
 
@@ -149,6 +151,8 @@ class Search extends Component {
                                                 {item.lastName}
                                                 {"    ||    "}
                                                 {item.primaryEmail}
+                                                {"    ||    "}
+                                                {item.checkedEmp}
                                             </List.Item>
                                         )}
                                     />
