@@ -8,6 +8,8 @@ import AddEmployee from "../components/AddEmployee";
 import ListEmployees from "../components/ListEmployees";
 import TimeSheetCalander from "../components/TimeSheet_Calender";
 import Search from "../components/Search";
+import MTSA from "../components/MTSA";
+import Project from "../components/ProjectDetails";
 
 export default () => {
   return (
@@ -21,6 +23,7 @@ export default () => {
           path="/addEmployee"
           render={props => <AddEmployee {...props} />}
         />
+        <Route exact path="/project" render={props => <Project {...props} />} />
         <Route
           exact
           path="/TimeSheetCalander"
@@ -32,6 +35,7 @@ export default () => {
           path="/listEmployees"
           render={props => <ListEmployees {...props} />}
         />
+        <Route exact path="/mTSA" render={props => <MTSA {...props} />} />
         <Route
           exact
           path="/createNewRequest"

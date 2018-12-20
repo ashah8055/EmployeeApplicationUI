@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  Form,
-  Button,
-  Layout,
-  Row,
-  Col,
-  DatePicker,
-  Card,
-  Select
-} from "antd";
+import { Form, Button, Layout, Row, Col, DatePicker, Card, Select } from "antd";
 import moment from "moment";
 import { createRequestSubmit } from "../../redux/actions/CreateNewRequest";
 //import { createWorkingHourTimeSheet } from "../../redux/actions/CreateNewRequest";

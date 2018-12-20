@@ -172,7 +172,6 @@ function* getEmployee(action) {
   const response = yield call(GetDataFromServer, loginUrl, "", "");
 
   const result = yield response.json();
-
   console.log("Result->" + JSON.stringify(result));
   if (result.error) {
     yield put({ type: Types.GET_EMPLOYEE_LIST_ERROR_RESPONSE, result });
@@ -202,6 +201,25 @@ function* searchEmployee(action) {
   }
 }
 
+function* listProjects(action) {
+  console.log("Get Action->" + JSON.stringify(action));
+
+  const reqMethod = "GET";
+  const loginUrl = "http://18.222.167.189:5000/get-all-projects";
+
+  const response = yield call(GetDataFromServer, loginUrl, "", "");
+
+  const result = yield response.json();
+
+
+  console.log("Result->" + JSON.stringify(result));
+  if (result.error) {
+    yield put({ type: Types.GET_EMPLOYEE_LIST_ERROR_RESPONSE, result });
+  } else {
+    yield put({ type: Types.GET_EMPLOYEE_LIST_SUCCESS_RESPONSE, result });
+  }
+}
+
 export default function* rootSaga(params) {
   yield takeEvery(Types.LOGIN_USER, fetchLoginUser);
   yield takeEvery(Types.CREATE_TIMESHEET, fetchTimeSheet);
@@ -214,4 +232,5 @@ export default function* rootSaga(params) {
   yield takeEvery(Types.EMPLOYEE_SAVE_DATABASE, saveEmployee);
   yield takeEvery(Types.GET_EMPLOYEE_LIST, getEmployee);
   yield takeEvery(Types.SEARCH_EMP, searchEmployee);
+  yield takeEvery(Types.PROJECT_LIST, listProjects);
 }

@@ -94,12 +94,10 @@ class Search extends Component {
       errors
     });
     if (Object.keys(errors).length === 0) {
-      const { firstName, lastName, primaryEmail } = this.state.data;
+      const { firstName } = this.state.data;
       this.props.dispatch(
         searchEmp({
-          firstName: firstName,
-          lastName: lastName,
-          primaryEmail: primaryEmail
+          firstName: firstName
         })
       );
 
