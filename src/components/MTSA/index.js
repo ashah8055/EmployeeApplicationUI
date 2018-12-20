@@ -160,7 +160,6 @@ class MTSA extends Component {
                     renderItem={item => (
                       <List.Item>
                         <Card>
-                          <Link>
                           {" "}
                           {item.clientProjectName}
                           {"    ||    "}
@@ -169,7 +168,6 @@ class MTSA extends Component {
                           {item.endDate}
                           {"    ||    "}
                           {item.listOfEmployees}
-                          </Link>
                         </Card>
                       </List.Item>
                     )}
