@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Collapse, Form, Button, Tabs, Layout, Input, Row, Col, DatePicker, Radio, Card, Select, Upload, message, Icon } from 'antd';
+import { Menu, Collapse, Form, Button, Tabs, Layout, Input, Row, Col, DatePicker, Radio, Card, Select, Upload, message, Icon, Switch } from 'antd';
 import moment from 'moment';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
@@ -10,14 +10,7 @@ import EmpModal from '../Search';
 const { Header, Sider, Content, Footer } = Layout;
 const { RangePicker } = DatePicker;
 
-function onChange(value, dateString) {
-    console.log('Selected Time: ', value);
-    console.log('Formatted Selected Time: ', dateString);
-}
 
-function onOk(value) {
-    console.log('onOk: ', value);
-}
 class projectDetails extends Component {
 
     constructor(props) {
@@ -26,19 +19,23 @@ class projectDetails extends Component {
         this.state = {
             current: 'project',
             projectDetails: {
-                loginId: '1',
+                loginEmpID: '1',
                 projectId: '123',
                 projctName: 'das',
                 vendorId: '1233',
                 vendorName: 'dsa',
                 clientId: '232',
                 clientName: 'ds',
-                StartDate: '',
-                EndDate: '',
+                startDate: '',
+                endDate: '',
                 notes: 'dsd',
                 activeTimeSheetStDt: '',
                 activeTimeSheetEdDt: '',
-                freezeDate: ''
+                activeTMSheetFreezeDate: '',
+                isEnableActiveTmSheet: true,
+                "listOfEmpID": [{
+
+                }]
             }
 
 
@@ -59,8 +56,8 @@ class projectDetails extends Component {
         // console.log("OnSelect" + date[0])
         // console.log("OnSelect" + date[1])
         let projectDetails = Object.assign({}, this.state.projectDetails);
-        projectDetails["StartDate"] = date[0];
-        projectDetails["EndDate"] = date[1];
+        projectDetails["startDate"] = date[0];
+        projectDetails["endDate"] = date[1];
         //   console.log(projectDetails["projectStartDate"]);
 
         return this.setState({ projectDetails });
@@ -79,12 +76,27 @@ class projectDetails extends Component {
 
     }
 
+    onChangeFreezeDatePicker = (e, date) => {
+        let projectDetails = Object.assign({}, this.state.projectDetails);
+        projectDetails["activeTMSheetFreezeDate"] = date;
+        return this.setState({ projectDetails });
+
+    }
+
+    onChanegeActivetimeSheet = (checked) => {
+        let projectDetails = Object.assign({}, this.state.projectDetails);
+        projectDetails["isEnableActiveTmSheet"] = checked;
+
+        return this.setState({ projectDetails });
+
+    }
+
     onSubmit = (e) => {
 
 
         let data = {};
         data.projectDetails = this.state.projectDetails;
-        data.projectDetails.employeeId = Math.floor((Math.random() * 100) + 1);
+        data.projectDetails.loginEmpID = Math.floor((Math.random() * 100) + 1);
         console.log("Details for time sheet details", data.projectDetails);
         //  data.reqId = this.state.TimeSheetDetails.reqId;
         this.props.dispatch(createProjcetDetailsSubmit(data));
@@ -197,25 +209,16 @@ class projectDetails extends Component {
                                         <Col span={8}>
                                             <Card>
                                                 <label>CLIENT ID:</label>
-                                                <FormItem
-
-                                                >
-
+                                                <FormItem>
                                                     <Input type="text" size="default" name="clientId" onChange={this.onChange} placeholder="Enter Client Id" />
-
-
                                                 </FormItem>
                                             </Card>
                                         </Col>
                                         <Col span={8}>
                                             <Card>
                                                 <label>CLIENT NAME:</label>
-                                                <FormItem
-
-                                                >
-
+                                                <FormItem>
                                                     <Input type="text" size="default" name="clientName" onChange={this.onChange} id="hMon" placeholder="Enter Client Name" />
-
                                                 </FormItem>
                                             </Card>
                                         </Col>
@@ -224,55 +227,61 @@ class projectDetails extends Component {
                                         <Col span={8}>
                                             <Card>
                                                 <label>PROJECT:</label>
-                                                <FormItem
-
-                                                >
-
+                                                <FormItem>
                                                     <RangePicker
                                                         format="YYYY-MM-DD"
                                                         placeholder={['Start Time', 'End Time']}
                                                         onChange={this.onChangeRangePicker}
                                                         onOk={this.onChangeRanePickerSubmit}
                                                     />
-
-
                                                 </FormItem>
                                             </Card>
                                         </Col>
                                         <Col span={8}>
                                             <Card>
                                                 <label>ACTIVE PROJECT:</label>
-                                                <FormItem
-
-                                                >
-
+                                                <FormItem>
                                                     <RangePicker
                                                         format="YYYY-MM-DD"
                                                         placeholder={['Start Time', 'End Time']}
                                                         onChange={this.onChangeActiveRangePicker}
                                                         onOk={this.onChangeActiveRanePickerSubmit}
                                                     />
-
-
                                                 </FormItem>
                                             </Card>
                                         </Col>
+
                                         <Col span={8}>
                                             <Card>
-                                                <FormItem
-
-                                                >
-
-                                                    <EmpModal></EmpModal>
-
-
-                                                </FormItem>
+                                                <div>
+                                                    FREEZE DATE:<br /><br />
+                                                    <DatePicker format="YYYY-MM-DD" onChange={this.onChangeFreezeDatePicker} />
+                                                </div>
                                             </Card>
                                         </Col>
 
                                     </Row>
                                     <Row type="flex" justify="start">
+
                                         <Col span={8}>
+                                            <Card>
+                                                <FormItem>
+                                                    <EmpModal></EmpModal>
+                                                </FormItem>
+                                            </Card>
+                                        </Col>
+                                        <Col span={8}>
+                                            <Card>
+                                                <div>
+                                                    ACTIVE TIMESHEET:<br />
+                                                    <Switch defaultChecked onChange={this.onChanegeActivetimeSheet} />
+                                                </div>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+
+                                    <Row type="flex" justify="start">
+                                        <Col span={24}>
                                             <Card>
                                                 <div>
                                                     Notes:

@@ -5,6 +5,7 @@ import { GetDataFromServer } from '../service';
 //const baseUrl = 'http://localhost:8080';
 const baseUrl = 'https://sleepy-basin-37644.herokuapp.com';
 const baseUrl2 = 'https://fierce-crag-76882.herokuapp.com';
+const aws = 'http://18.222.167.189:5000';
 function* fetchLoginUser(action) {
   try {
     console.log("Action->" + JSON.stringify(action));
@@ -240,6 +241,29 @@ function* searchEmployee(action) {
     yield put({ type: Types.SEARCH_EMP_SUCCESS, result });
   }
 }
+
+function* saveProjectDetails(action) {
+  try {
+    let formBody = {};
+    formBody.projectDetails = action.projectDetails;
+    const reqMethod = "POST";
+    const loginUrl = baseUrl + '/project/create';
+    const response = yield call(GetDataFromServer, loginUrl, 'POST', formBody);
+    const result = yield response.json();
+    console.log('Result Json' + result);
+    if (result.error) {
+      yield put({ type: Types.CREATE_PROJECT_DETAILS_SERVER_RESPONSE_ERROR, error: result.error });
+    } else {
+      yield put({ type: Types.CREATE_PROJECT_DETAILS_SERVER_RESPONSE_SUCESS, result });
+      console.log("PROJECT DETAILS" + JSON.stringify(result));
+    }
+  }
+  catch (error) {
+    // yield put({ type: Types.SERVER_CALL_FAILED, error: error.message });
+    console.log(error);
+  }
+}
+
 export default function* rootSaga(params) {
   yield takeLatest(Types.LOGIN_USER, fetchLoginUser);
   yield takeLatest(Types.CREATE_TIMESHEET, fetchTimeSheet);
@@ -251,6 +275,7 @@ export default function* rootSaga(params) {
   yield takeEvery(Types.EMPLOYEE_SAVE_DATABASE, saveEmployee);
   yield takeEvery(Types.GET_EMPLOYEE_LIST, getEmployee);
   yield takeEvery(Types.SEARCH_EMP, searchEmployee);
+  yield takeEvery(Types.CREATE_PROJECT, saveProjectDetails)
   console.log("ROOT SAGA");
 
 }
