@@ -27,16 +27,11 @@ class MTSA extends Component {
       data: {
         clientProjectName: "",
         startDate: "",
-        endDate: ""
-      },
-      data0: {
+        endDate: "",
         listOfEmployees: [{ employeeId: "", isTimesheetActive: "" }],
         activeTimesheetStartDate: "",
         activeTimesheetEndDate: "",
-        notes: ""
-      },
-      data2: {
-        listOfEmployees: [{ employeeId: "" }],
+        notes: "",
         projectId: "",
         clientProjectId: "",
         vendorId: "",
@@ -52,9 +47,7 @@ class MTSA extends Component {
   }
   onChange = e =>
     this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value },
-      data0: { ...this.state.data0, [e.target.name]: e.target.value },
-      data2: { ...this.state.data2, [e.target.name]: e.target.value }
+      data: { ...this.state.data, [e.target.name]: e.target.value }
     });
 
   handleClick = e => {
@@ -109,7 +102,7 @@ class MTSA extends Component {
       activeTimesheetStartDate,
       activeTimesheetEndDate,
       notes
-    } = this.state.data0;
+    } = this.state.data;
     this.props.dispatch(
       getEmpInfo({
         listOfEmployees: [
@@ -131,7 +124,7 @@ class MTSA extends Component {
       clientProjectId,
       vendorId,
       vendorName
-    } = this.state.data2;
+    } = this.state.data;
     this.props.dispatch(
       getEmpInfo({
         listOfEmployees: [{ employeeId: employeeId }],
@@ -147,7 +140,7 @@ class MTSA extends Component {
 
   render() {
     const data1 = Array.from(this.props.empList);
-    const { data, data0, data2 } = this.state;
+    const { data } = this.state;
 
     return (
       <div>
@@ -226,7 +219,7 @@ class MTSA extends Component {
                     dataSource={data1}
                     renderItem={item => (
                       <List.Item>
-                        <Card onClick={this.onList} value={data0}>
+                        <Card onClick={this.onList} value={data}>
                           {" "}
                           <b> {item.clientProjectName}</b>
                           <br />
@@ -255,7 +248,7 @@ class MTSA extends Component {
                     dataSource={data1}
                     renderItem={item2 => (
                       <List.Item>
-                        <Card onClick={this.onDetails} value={data2}>
+                        <Card onClick={this.onDetails} value={data}>
                           {item2.listOfEmployees.employeeId}
                           <br />
                           {item2.listOfEmployees.isActiveTimesheet}
