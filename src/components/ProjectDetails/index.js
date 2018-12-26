@@ -272,6 +272,8 @@ class projectDetails extends Component {
                         </FormItem>
                       </Card>
                     </Col>
+                  </Row>
+                  <Row type="flex" justify="start">
                     <Col span={8}>
                       <Card>
                         <FormItem>
