@@ -10,7 +10,8 @@ import {
   Layout,
   Row,
   Col,
-  Card
+  Card,
+  Badge
 } from "antd";
 import { Link } from "react-router-dom";
 import { getPro, getEmpInfo } from "../../redux/actions/Get_List";
@@ -28,7 +29,7 @@ class MTSA extends Component {
         clientProjectName: "",
         startDate: "",
         endDate: "",
-        listOfEmployees: [{ employeeId: "", isTimesheetActive: "" }],
+        listOfEmployees: [{ employeeId: "", employeeName: "" }],
         activeTimesheetStartDate: "",
         activeTimesheetEndDate: "",
         notes: "",
@@ -98,7 +99,7 @@ class MTSA extends Component {
   };
   onList = e => {
     const {
-      listOfEmployees: [{ employeeId, isTimesheetActive }],
+      listOfEmployees: [{ employeeId, employeeName }],
       activeTimesheetStartDate,
       activeTimesheetEndDate,
       notes
@@ -106,7 +107,10 @@ class MTSA extends Component {
     this.props.dispatch(
       getEmpInfo({
         listOfEmployees: [
-          { employeeId: employeeId, isTimesheetActive: isTimesheetActive }
+          {
+            employeeId: employeeId,
+            employeeName: employeeName
+          }
         ],
         activeTimesheetStartDate: activeTimesheetStartDate,
         activeTimesheetEndDate: activeTimesheetEndDate,
@@ -208,7 +212,7 @@ class MTSA extends Component {
               minHeight: 500
             }}
           >
-            <Col span={8}>
+            <Col span={10}>
               <Card title="Project List" span={4}>
                 <Form span={4}>
                   {/* <Button type="primary" onClick={this.onShow} value={data}>
@@ -219,12 +223,19 @@ class MTSA extends Component {
                     dataSource={data1}
                     renderItem={item => (
                       <List.Item>
-                        <Card onClick={this.onList} value={data}>
-                          {" "}
-                          <b> {item.clientProjectName}</b>
+                        <Card
+                          onClick={this.onList}
+                          value={item.clientProjectName}
+                        >
+                          <Badge count={item.listOfEmployees.length} />
+                          <b>
+                            {"Project Name: "}
+                            {item.clientProjectName}
+                          </b>
                           <br />
+                          {"Date: "}
                           <Moment format="MM/DD/YYYY">{item.startDate}</Moment>
-                          {"-"}
+                          {" - "}
                           <Moment format="MM/DD/YYYY">{item.endDate}</Moment>
                           <br />
                         </Card>
@@ -249,13 +260,20 @@ class MTSA extends Component {
                     renderItem={item2 => (
                       <List.Item>
                         <Card onClick={this.onDetails} value={data}>
-                          {item2.listOfEmployees.employeeId}
+                          {"Employee ID: "}
+                          {item2.listOfEmployees[0].employeeId}
                           <br />
-                          {item2.listOfEmployees.isActiveTimesheet}
+                          {"Employee Name: "}
+                          {item2.listOfEmployees[0].employeeName}
                           <br />
-                          {item2.activeTimesheetStartDate}
-                          <br />
-                          {item2.activeTimesheetEndDate}
+                          {"Timesheet Date: "}
+                          <Moment format="MM/DD/YYYY">
+                            {item2.activeTimesheetStartDate}
+                          </Moment>
+                          {" - "}
+                          <Moment format="MM/DD/YYYY">
+                            {item2.activeTimesheetEndDate}
+                          </Moment>
                         </Card>
                       </List.Item>
                     )}
@@ -277,14 +295,19 @@ class MTSA extends Component {
                     renderItem={item2 => (
                       <List.Item>
                         <Card>
-                          {item2.listOfEmployees.employeeId}
+                          {"Employee Id: "}
+                          {item2.listOfEmployees[0].employeeId}
                           <br />
+                          {"Project Id: "}
                           {item2.projectId}
                           <br />
+                          {"Client Id: "}
                           {item2.clientProjectId}
                           <br />
+                          {"Vendor Id: "}
                           {item2.vendorId}
                           <br />
+                          {"Vendor Name: "}
                           {item2.vendorName}
                         </Card>
                       </List.Item>
