@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  Modal,
   Menu,
   List,
   Form,
@@ -18,7 +17,8 @@ import { getPro, getEmpInfo } from "../../redux/actions/Get_List";
 import Moment from "react-moment";
 
 const { Header, Content, Footer } = Layout;
-
+var size1 = 0;
+var size2 = 0;
 class MTSA extends Component {
   constructor(props) {
     super(props);
@@ -38,9 +38,7 @@ class MTSA extends Component {
         vendorId: "",
         vendorName: ""
       },
-      loading: false,
-      visible1: false,
-      visible2: false
+      loading: false
     };
   }
   componentDidMount() {
@@ -55,34 +53,6 @@ class MTSA extends Component {
     console.log("click ", e);
     this.setState({
       current: e.key
-    });
-  };
-
-  handleOk1 = e => {
-    console.log(e);
-    this.setState({
-      visible1: false
-    });
-  };
-
-  handleCancel1 = e => {
-    console.log(e);
-    this.setState({
-      visible1: false
-    });
-  };
-
-  handleOk2 = e => {
-    console.log(e);
-    this.setState({
-      visible2: false
-    });
-  };
-
-  handleCancel2 = e => {
-    console.log(e);
-    this.setState({
-      visible2: false
     });
   };
 
@@ -117,7 +87,7 @@ class MTSA extends Component {
         notes: notes
       })
     );
-    this.state.visible1 = true;
+    size1 = 8;
     this.props.history.push("/mTSA");
   };
 
@@ -138,7 +108,7 @@ class MTSA extends Component {
         vendorName: vendorName
       })
     );
-    this.state.visible2 = true;
+    size2 = 8;
     this.props.history.push("/mTSA");
   };
 
@@ -212,21 +182,15 @@ class MTSA extends Component {
               minHeight: 500
             }}
           >
-            <Col span={10}>
+            <Col span={8}>
               <Card title="Project List" span={4}>
                 <Form span={4}>
-                  {/* <Button type="primary" onClick={this.onShow} value={data}>
-                    View List
-                  </Button> */}
                   <List
                     bordered
                     dataSource={data1}
                     renderItem={item => (
                       <List.Item>
-                        <Card
-                          onClick={this.onList}
-                          value={item.clientProjectName}
-                        >
+                        <Card onClick={this.onList} value={item.projectId}>
                           <Badge count={item.listOfEmployees.length} />
                           <b>
                             {"Project Name: "}
@@ -246,13 +210,8 @@ class MTSA extends Component {
               </Card>
             </Col>
 
-            <Col span={8}>
-              <Modal
-                title="Employee List"
-                visible={this.state.visible1}
-                onOk={this.handleOk1}
-                onCancel={this.handleCancel1}
-              >
+            <Col xs={size1} sm={size1} md={size1} lg={size1} xl={size1}>
+              <Card title="Employee List" span={4}>
                 <Form span={4}>
                   <List
                     bordered
@@ -261,7 +220,7 @@ class MTSA extends Component {
                       <List.Item>
                         <Card onClick={this.onDetails} value={data}>
                           {"Employee ID: "}
-                          {item2.listOfEmployees[0].employeeId}
+                          <Badge count={item2.listOfEmployees[0].employeeId} />
                           <br />
                           {"Employee Name: "}
                           {item2.listOfEmployees[0].employeeName}
@@ -279,15 +238,10 @@ class MTSA extends Component {
                     )}
                   />
                 </Form>
-              </Modal>
+              </Card>
             </Col>
-            <Col span={8}>
-              <Modal
-                title="Employee Details"
-                visible={this.state.visible2}
-                onOk={this.handleOk2}
-                onCancel={this.handleCancel2}
-              >
+            <Col xs={size2} sm={size2} md={size2} lg={size2} xl={size2}>
+              <Card title="Employee Details" span={4}>
                 <Form span={4}>
                   <List
                     bordered
@@ -296,13 +250,15 @@ class MTSA extends Component {
                       <List.Item>
                         <Card>
                           {"Employee Id: "}
-                          {item2.listOfEmployees[0].employeeId}
+                          <Badge count={item2.listOfEmployees[0].employeeId} />
                           <br />
                           {"Project Id: "}
-                          {item2.projectId}
+                          <Badge count={item2.listOfEmployees[0].projectId} />
                           <br />
                           {"Client Id: "}
-                          {item2.clientProjectId}
+                          <Badge
+                            count={item2.listOfEmployees[0].clientProjectId}
+                          />
                           <br />
                           {"Vendor Id: "}
                           {item2.vendorId}
@@ -314,7 +270,7 @@ class MTSA extends Component {
                     )}
                   />
                 </Form>
-              </Modal>{" "}
+              </Card>{" "}
             </Col>
           </Content>
 
