@@ -9,7 +9,7 @@ import Project from "../components/ProjectDetails";
 import Signup from "../components/Sign Up";
 import Search from "../components/Search";
 import AddEmployee from "../components/AddEmployee";
-
+import MTSA from "../components/MTSA";
 export default () => {
   return (
 
@@ -26,6 +26,7 @@ export default () => {
         <Route exact path="/Employee" render={props => <Employee {...props} />} />
         <Route exact path="/search" render={props => <Search {...props} />} />
         <Route exact path="/addEmployee" render={props => <AddEmployee {...props} />} />
+        <Route exact path="/mTSA" render={props => <MTSA {...props} />} />
         <Redirect to="/login" />
       </Switch>
     </BrowserRouter>

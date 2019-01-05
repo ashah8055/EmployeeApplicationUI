@@ -16,8 +16,8 @@ class Search extends Component {
             data: {
                 firstName: "",
                 lastName: "",
-                primaryEmail: "",
-                checkedEmp: false
+                primaryEmail: ""
+
             },
             loading: false,
             visible: false,
@@ -33,7 +33,7 @@ class Search extends Component {
     onCheck(e) {
         console.log(`checked = ${e.target.checked}`);
         console.log(e.target.value);
-
+        e.target.value.check = true;
     }
 
     handleClick = e => {
@@ -47,6 +47,15 @@ class Search extends Component {
         this.setState({
             visible: false
         });
+        let selEmpList = Array.from(this.props.searchList);
+        const selEmployees = selEmpList.filter(item => {
+            if (item.check) {
+
+                return item;
+            }
+        });
+
+        console.log("selected employees list" + JSON.stringify(selEmployees));
     };
 
     handleCancel = e => {
@@ -66,13 +75,13 @@ class Search extends Component {
         this.setState({
             visible: true
         });
-        const { firstName, lastName, primaryEmail, checkedEmp } = this.state.data;
+        const { firstName, lastName, primaryEmail } = this.state.data;
         this.props.dispatch(
             getEmp({
                 firstName: firstName,
                 lastName: lastName,
                 primaryEmail: primaryEmail,
-                checkedEmp
+
             })
         );
 
@@ -93,8 +102,6 @@ class Search extends Component {
                     primaryEmail: primaryEmail
                 })
             );
-
-            //   this.props.history.push("/search");
         }
     };
 
@@ -106,7 +113,7 @@ class Search extends Component {
         return (
             <div>
                 <Button type="primary" onClick={this.onShow}>
-                    Search{" "}
+                    Add Employee{" "}
                 </Button>
                 <Modal
                     title="Employee Details"
@@ -145,14 +152,12 @@ class Search extends Component {
                                         dataSource={data1}
                                         renderItem={item => (
                                             <List.Item>
-                                                <Checkbox onChange={this.onCheck} value={data} />
+                                                <Checkbox onChange={this.onCheck} value={item} />
                                                 {item.firstName}
                                                 {"    ||    "}
                                                 {item.lastName}
                                                 {"    ||    "}
                                                 {item.primaryEmail}
-                                                {"    ||    "}
-                                                {item.checkedEmp}
                                             </List.Item>
                                         )}
                                     />

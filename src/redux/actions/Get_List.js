@@ -14,3 +14,13 @@ export const selectedEmp = selectedEmp => ({
     type: Types.GET_EMPLOYEE_SELECTED_LIST,
     selectedEmp
 });
+
+export const getPro = result => ({
+    type: Types.PROJECT_LIST,
+    result
+});
+
+export const getEmpInfo = result => ({
+    type: Types.PROJECT_LIST,
+    result
+});

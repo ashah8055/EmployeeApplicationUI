@@ -1,17 +1,38 @@
 import React, { Component } from 'react'
 import { Collapse, Form, Button, Tabs, Layout, Input, TextArea, List, Divider, Row, Col, Menu, Icon, Card } from 'antd';
+import { listProjectDetails } from '../../redux/actions/ProjectDetails'
+import { connect } from 'react-redux';
+import { deleteProject, deleteProjectSucess } from '../../redux/actions/ProjectDetails'
 const Search = Input.Search;
 
-export default class list extends Component {
+class list extends Component {
+
+    componentDidMount() {
+
+        //     this.setState({ this.props.products: Array.from(this.props.empList) })
+        this.props.dispatch(listProjectDetails())
+
+    }
+    componentDidUpdate(prevProps) {
+        // Typical usage (don't forget to compare props):
+        if (this.props.projList !== prevProps.projList) {
+            this.props.dispatch(listProjectDetails())
+        }
+    }
+    handleDelete(proj) {
+        this.props.dispatch(deleteProject(proj._id))
+        console.log("DEL" + proj._id);
+    }
+    handleEdit(proj) {
+        console.log("Edit Click")
+    }
 
     render() {
-        const data = [
-            'Racing car sprays burning fuel into crowd.',
-            'Japanese princess to wed commoner.',
-            'Australian walks 100km after outback crash.',
-            'Man charged over missing wedding girl.',
-            'Los Angeles battles huge wildfires.',
-        ];
+
+        // const data = Array.from(this.props.projList);
+        const data = Array.from(this.props.projList);
+        // const data = ['ads', 'dda']
+
         return (
             <div>
                 <Row>
@@ -24,16 +45,25 @@ export default class list extends Component {
                     </Card>
                     <Card>
                         <List
+                            pagination="true"
                             size="large"
-                            header={<div>Header</div>}
-                            footer={<div>Footer</div>}
+                            header={<div><b>Project Names</b></div>}
                             bordered
                             dataSource={data}
-                            renderItem={item => (<List.Item>{item}</List.Item>)}
+                            renderItem={item => (<List.Item  >{item.clientProjectName}<input type="button" value="Remove" className="btn btn-danger" onClick={() => this.handleDelete(item)} /><input type="button" value="Edit" className="btn btn-danger" onClick={() => this.handleEdit(item)} /></List.Item>)}
                         />
                     </Card>
                 </Row>
-            </div>
+            </div >
         )
     }
 }
+function mapStateToProps(state) {
+    return {
+
+        projList: state.projcetDetails.result
+
+    };
+}
+export default connect(mapStateToProps)(list);
+

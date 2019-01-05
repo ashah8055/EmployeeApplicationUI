@@ -19,9 +19,9 @@ class projectDetails extends Component {
         this.state = {
             current: 'project',
             projectDetails: {
-                loginEmpID: '1',
-                projectId: '123',
-                projctName: 'das',
+                createdById: '1',
+                clientProjectId: '123',
+                clientProjectName: 'das',
                 vendorId: '1233',
                 vendorName: 'dsa',
                 clientId: '232',
@@ -29,11 +29,11 @@ class projectDetails extends Component {
                 startDate: '',
                 endDate: '',
                 notes: 'dsd',
-                activeTimeSheetStDt: '',
-                activeTimeSheetEdDt: '',
-                activeTMSheetFreezeDate: '',
-                isEnableActiveTmSheet: true,
-                "listOfEmpID": [{
+                activeTimesheetStartDate: '',
+                activeTimesheetEndDate: '',
+                activeTimesheetFreezeDate: '',
+                isActiveTimesheet: true,
+                "listOfEmployees": [{
 
                 }]
             }
@@ -48,7 +48,11 @@ class projectDetails extends Component {
         projectDetails[e.target.name] = e.target.value;
         return this.setState({ projectDetails });
     };
-
+    onChangeId = (e) => {
+        let projectDetails = Object.assign({}, this.state.projectDetails);
+        projectDetails[e.target.name] = Number(e.target.value);
+        return this.setState({ projectDetails });
+    };
 
 
     onChangeRangePicker = (e, date) => {
@@ -67,8 +71,8 @@ class projectDetails extends Component {
     onChangeActiveRangePicker = (e, date) => {
 
         let projectDetails = Object.assign({}, this.state.projectDetails);
-        projectDetails["activeTimeSheetStDt"] = date[0];
-        projectDetails["activeTimeSheetEdDt"] = date[1];
+        projectDetails["activeTimesheetStartDate"] = date[0];
+        projectDetails["activeTimesheetEndDate"] = date[1];
         //   console.log(projectDetails["projectStartDate"]);
 
         return this.setState({ projectDetails });
@@ -78,14 +82,14 @@ class projectDetails extends Component {
 
     onChangeFreezeDatePicker = (e, date) => {
         let projectDetails = Object.assign({}, this.state.projectDetails);
-        projectDetails["activeTMSheetFreezeDate"] = date;
+        projectDetails["activeTimesheetFreezeDate"] = date;
         return this.setState({ projectDetails });
 
     }
 
     onChanegeActivetimeSheet = (checked) => {
         let projectDetails = Object.assign({}, this.state.projectDetails);
-        projectDetails["isEnableActiveTmSheet"] = checked;
+        projectDetails["isActiveTimesheet"] = checked;
 
         return this.setState({ projectDetails });
 
@@ -93,23 +97,38 @@ class projectDetails extends Component {
 
     onSubmit = (e) => {
 
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                let data = {};
+                data.projectDetails = this.state.projectDetails;
+                data.projectDetails.createdById = Math.floor((Math.random() * 100) + 1);
+                console.log("Submit Details" + data)
+                this.props.dispatch(createProjcetDetailsSubmit(data));
 
-        let data = {};
-        data.projectDetails = this.state.projectDetails;
-        data.projectDetails.loginEmpID = Math.floor((Math.random() * 100) + 1);
-        console.log("Details for time sheet details", data.projectDetails);
-        //  data.reqId = this.state.TimeSheetDetails.reqId;
-        this.props.dispatch(createProjcetDetailsSubmit(data));
-        //this.props.dispatch(createWorkingHourTimeSheet(data));
-        console.log("Submit click");
+                return this.setState({ projectDetails });
+            }
 
+        });
 
     };
+
     render() {
         const { TextArea } = Input;
-        //   const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator } = this.props.form;
         const FormItem = Form.Item;
-
+        const formItemLayout = {
+            labelCol: {
+                xl: { span: 24 },
+                xs: { span: 24 },
+                sm: { span: 8 },
+            },
+            wrapperCol: {
+                xl: { span: 24 },
+                xs: { span: 24 },
+                sm: { span: 16 },
+            },
+        };
 
         return (
             <div>
@@ -154,13 +173,23 @@ class projectDetails extends Component {
                                         <Col span={8}>
                                             <Card>
                                                 <label>PROJECT ID:</label>
+                                                <label>{this.state.projectDetails.clientProjectId}</label>
                                                 <FormItem
-
-                                                >
-                                                    {/* value={this.state.projectDetails.projectId} */}
-                                                    <Input type="text" size="default" name="projectId" onChange={this.onChange} placeholder="Enter Project Id" />
+                                                    {...formItemLayout}
+                                                >{getFieldDecorator('clientProjectId', {
 
 
+                                                    rules: [
+                                                        {
+                                                            required: true, message: 'Please input Project id!',
+                                                        }
+
+                                                    ]
+                                                })(
+
+                                                    <Input type="text" size="default" name="clientProjectId" onChange={this.onChangeId} value={this.state.projectDetails.clientProjectId} />
+
+                                                )}
                                                 </FormItem>
                                             </Card>
                                         </Col>
@@ -168,12 +197,20 @@ class projectDetails extends Component {
                                             <Card>
                                                 <label>PROJECT NAME:</label>
                                                 <FormItem
-
+                                                    {...formItemLayout}
                                                 >
+                                                    {getFieldDecorator('clientProjectName', {
 
-                                                    <Input type="text" size="default" name="projectName" onChange={this.onChange} placeholder="Enter Project Name" />
 
+                                                        rules: [
+                                                            {
+                                                                required: true, message: 'Please input Project Name!',
+                                                            }
 
+                                                        ]
+                                                    })(
+                                                        <Input type="text" size="default" name="clientProjectName" onChange={this.onChange} placeholder="Enter Project Name" />
+                                                    )}
                                                 </FormItem>
                                             </Card>
                                         </Col>
@@ -182,12 +219,21 @@ class projectDetails extends Component {
                                             <Card>
                                                 <label>VENDOR ID:</label>
                                                 <FormItem
-
+                                                    {...formItemLayout}
                                                 >
+                                                    {getFieldDecorator('vendorId', {
 
-                                                    <Input type="text" size="default" name="vendorId" onChange={this.onChange} placeholder="Enter Vendor Name" />
 
+                                                        rules: [
+                                                            {
+                                                                required: true, message: 'Please input Vendor Id!',
+                                                            }
 
+                                                        ]
+                                                    })(
+                                                        <Input type="text" size="default" name="vendorId" onChange={this.onChangeId} placeholder="Enter Vendor Id" />
+
+                                                    )}
                                                 </FormItem>
                                             </Card>
                                         </Col>
@@ -198,10 +244,17 @@ class projectDetails extends Component {
                                         <Col span={8}>
                                             <Card>
                                                 <label>VENDOR NAME:</label>
-                                                <FormItem>
-                                                    <Input type="text" size="default" name="vendorName" onChange={this.onChange} placeholder="Enter Vendor Name" />
+                                                <FormItem {...formItemLayout}>
+                                                    {getFieldDecorator('vendorName', {
+                                                        rules: [
+                                                            {
+                                                                required: true, message: 'Please input Vendor Name!',
+                                                            }
+                                                        ]
+                                                    })(
+                                                        <Input type="text" size="default" name="vendorName" onChange={this.onChange} placeholder="Enter Vendor Name" />
 
-
+                                                    )}
                                                 </FormItem>
                                             </Card>
                                         </Col>
@@ -209,16 +262,32 @@ class projectDetails extends Component {
                                         <Col span={8}>
                                             <Card>
                                                 <label>CLIENT ID:</label>
-                                                <FormItem>
-                                                    <Input type="text" size="default" name="clientId" onChange={this.onChange} placeholder="Enter Client Id" />
+                                                <FormItem {...formItemLayout}>
+                                                    {getFieldDecorator('clientId', {
+                                                        rules: [
+                                                            {
+                                                                required: true, message: 'Please input Client Id!',
+                                                            }
+                                                        ]
+                                                    })(
+                                                        <Input type="text" size="default" name="clientId" onChange={this.onChangeId} placeholder="Enter Client Id" />
+                                                    )}
                                                 </FormItem>
                                             </Card>
                                         </Col>
                                         <Col span={8}>
                                             <Card>
                                                 <label>CLIENT NAME:</label>
-                                                <FormItem>
-                                                    <Input type="text" size="default" name="clientName" onChange={this.onChange} id="hMon" placeholder="Enter Client Name" />
+                                                <FormItem {...formItemLayout}>
+                                                    {getFieldDecorator('clientName', {
+                                                        rules: [
+                                                            {
+                                                                required: true, message: 'Please input Client Name!',
+                                                            }
+                                                        ]
+                                                    })(
+                                                        <Input type="text" size="default" name="clientName" onChange={this.onChange} placeholder="Enter Client Name" />
+                                                    )}
                                                 </FormItem>
                                             </Card>
                                         </Col>
@@ -227,36 +296,66 @@ class projectDetails extends Component {
                                         <Col span={8}>
                                             <Card>
                                                 <label>PROJECT:</label>
-                                                <FormItem>
-                                                    <RangePicker
-                                                        format="YYYY-MM-DD"
-                                                        placeholder={['Start Time', 'End Time']}
-                                                        onChange={this.onChangeRangePicker}
-                                                        onOk={this.onChangeRanePickerSubmit}
-                                                    />
+                                                <FormItem {...formItemLayout}>
+                                                    {getFieldDecorator('projectRangePicker', {
+                                                        rules: [
+                                                            {
+                                                                required: true, message: 'Please Select Project Dates!',
+                                                            }
+                                                        ]
+                                                    })(
+                                                        <RangePicker
+                                                            name="projectRangePicker"
+                                                            format="YYYY-MM-DD"
+                                                            placeholder={['Start Time', 'End Time']}
+                                                            onChange={this.onChangeRangePicker}
+                                                            onOk={this.onChangeRanePickerSubmit}
+                                                        />
+                                                    )}
                                                 </FormItem>
                                             </Card>
                                         </Col>
                                         <Col span={8}>
                                             <Card>
                                                 <label>ACTIVE PROJECT:</label>
-                                                <FormItem>
-                                                    <RangePicker
-                                                        format="YYYY-MM-DD"
-                                                        placeholder={['Start Time', 'End Time']}
-                                                        onChange={this.onChangeActiveRangePicker}
-                                                        onOk={this.onChangeActiveRanePickerSubmit}
-                                                    />
+                                                <FormItem {...formItemLayout}>
+                                                    {getFieldDecorator('activeProjectRangePicker', {
+                                                        rules: [
+                                                            {
+                                                                required: true, message: 'Please Select Active Project Dates!',
+                                                            }
+                                                        ]
+                                                    })(
+                                                        <RangePicker
+                                                            name="activeProjectRangePicker"
+                                                            format="YYYY-MM-DD"
+                                                            placeholder={['Start Time', 'End Time']}
+                                                            onChange={this.onChangeActiveRangePicker}
+                                                            onOk={this.onChangeActiveRanePickerSubmit}
+                                                        />
+                                                    )}
                                                 </FormItem>
                                             </Card>
                                         </Col>
 
                                         <Col span={8}>
                                             <Card>
-                                                <div>
-                                                    FREEZE DATE:<br /><br />
-                                                    <DatePicker format="YYYY-MM-DD" onChange={this.onChangeFreezeDatePicker} />
-                                                </div>
+                                                <label>FREEZE DATE:</label>
+                                                <FormItem {...formItemLayout}>
+                                                    {getFieldDecorator('freezeDate', {
+                                                        rules: [
+                                                            {
+                                                                required: true, message: 'Please Select Freeze  Dates!',
+                                                            }
+                                                        ]
+                                                    })(
+
+
+                                                        <DatePicker name="freezeDate" format="YYYY-MM-DD" onChange={this.onChangeFreezeDatePicker} />
+
+                                                    )}
+                                                </FormItem>
+
                                             </Card>
                                         </Col>
 
@@ -271,11 +370,13 @@ class projectDetails extends Component {
                                             </Card>
                                         </Col>
                                         <Col span={8}>
+
                                             <Card>
-                                                <div>
-                                                    ACTIVE TIMESHEET:<br />
+                                                <label>ACTIVE TIMESHEET:</label>
+                                                <FormItem>
+
                                                     <Switch defaultChecked onChange={this.onChanegeActivetimeSheet} />
-                                                </div>
+                                                </FormItem>
                                             </Card>
                                         </Col>
                                     </Row>

@@ -1,6 +1,6 @@
 import { takeEvery, call, put, select, take, fork, all, takeLatest } from 'redux-saga/effects';
 import * as Types from '../actions/types';
-import { GetDataFromServer } from '../service';
+import { GetDataFromServer, deleteTodoAPI } from '../service';
 
 //const baseUrl = 'http://localhost:8080';
 const baseUrl = 'https://sleepy-basin-37644.herokuapp.com';
@@ -244,13 +244,18 @@ function* searchEmployee(action) {
 
 function* saveProjectDetails(action) {
   try {
+    console.log("CREATE PROJECT Action->" + JSON.stringify(action.projectDetails.projectDetails));
+
     let formBody = {};
-    formBody.projectDetails = action.projectDetails;
+    formBody = action.projectDetails.projectDetails;
+    console.log("FormBody" + JSON.stringify(formBody));
+
     const reqMethod = "POST";
-    const loginUrl = baseUrl + '/project/create';
+    // const loginUrl = baseUrl + '/project/create';
+    const loginUrl = aws + '/save-project';
     const response = yield call(GetDataFromServer, loginUrl, 'POST', formBody);
     const result = yield response.json();
-    console.log('Result Json' + result);
+    console.log('Result Json' + JSON.stringify(result));
     if (result.error) {
       yield put({ type: Types.CREATE_PROJECT_DETAILS_SERVER_RESPONSE_ERROR, error: result.error });
     } else {
@@ -263,7 +268,51 @@ function* saveProjectDetails(action) {
     console.log(error);
   }
 }
+function* fetchListOfProjectDetails() {
 
+  let formBody = {};
+  const reqMethod = "GET";
+  const loginUrl = aws + '/get-all-projects';
+  const response = yield call(GetDataFromServer, loginUrl, '', '');
+
+  const result = yield response.json();
+  if (result.error) {
+    yield put({ type: Types.LIST_PROJECT_DETAILS_SERVER_RESPONSE_ERROR, result });
+  } else {
+    yield put({ type: Types.LIST_PROJECT_DETAILS_SERVER_RESPONSE_SUCESS, result });
+  }
+}
+function* deleteProjectDetails(action) {
+  console.log("DELETE ACTIO" + JSON.stringify(action))
+  try {
+    // Ensure that your API returns the data of the updated todo
+    let formBody = {};
+    formBody._id = action._id
+    const newData = yield call(deleteTodoAPI, formBody); // Refer sample to api calls in remote.js file
+    yield put({ type: Types.DELETE_PROJECT_SUCESS, newData }); // pass in the id you updated and the newData returned from the API
+    /// Other things can go here depending on what you want
+  } catch (e) {
+    console.log("SAGA ERROR")
+  }
+}
+function* listProjects(action) {
+  console.log("Get Action->" + JSON.stringify(action));
+
+  const reqMethod = "GET";
+  const loginUrl = "http://18.222.167.189:5000/get-all-projects";
+
+  const response = yield call(GetDataFromServer, loginUrl, "", "");
+
+  const result = yield response.json();
+
+
+  console.log("Result->" + JSON.stringify(result));
+  if (result.error) {
+    yield put({ type: Types.GET_EMPLOYEE_LIST_ERROR_RESPONSE, result });
+  } else {
+    yield put({ type: Types.GET_EMPLOYEE_LIST_SUCCESS_RESPONSE, result });
+  }
+}
 export default function* rootSaga(params) {
   yield takeLatest(Types.LOGIN_USER, fetchLoginUser);
   yield takeLatest(Types.CREATE_TIMESHEET, fetchTimeSheet);
@@ -276,6 +325,10 @@ export default function* rootSaga(params) {
   yield takeEvery(Types.GET_EMPLOYEE_LIST, getEmployee);
   yield takeEvery(Types.SEARCH_EMP, searchEmployee);
   yield takeEvery(Types.CREATE_PROJECT, saveProjectDetails)
+  yield takeLatest(Types.LIST_PROJECT_DETAILS, fetchListOfProjectDetails)
+  yield takeLatest(Types.DELETE_PROJECT, deleteProjectDetails)
+  yield takeEvery(Types.PROJECT_LIST, listProjects);
+
   console.log("ROOT SAGA");
 
 }
