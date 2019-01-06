@@ -2,7 +2,7 @@
   "name": "emp",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://adshah8055.github.io/EmployeeApplicationUI/",
+  "homepage": "http://adshah8055.github.io/EmployeeApplicationUI/",
   "dependencies": {
     "antd": "^3.10.4",
     "gh-pages": "^2.0.1",
