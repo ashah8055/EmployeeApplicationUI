@@ -1,7 +1,7 @@
 {
   "main.css": "/EmployeeApplicationUI/static/css/main.4dc98957.chunk.css",
-  "main.js": "/EmployeeApplicationUI/static/js/main.7ea011a3.chunk.js",
-  "main.js.map": "/EmployeeApplicationUI/static/js/main.7ea011a3.chunk.js.map",
+  "main.js": "/EmployeeApplicationUI/static/js/main.588098b5.chunk.js",
+  "main.js.map": "/EmployeeApplicationUI/static/js/main.588098b5.chunk.js.map",
   "static/css/1.540e2d51.chunk.css": "/EmployeeApplicationUI/static/css/1.540e2d51.chunk.css",
   "static/js/1.ee79eb2f.chunk.js": "/EmployeeApplicationUI/static/js/1.ee79eb2f.chunk.js",
   "static/js/1.ee79eb2f.chunk.js.map": "/EmployeeApplicationUI/static/js/1.ee79eb2f.chunk.js.map",
@@ -11,6 +11,6 @@
   "static/media/logo.svg": "/EmployeeApplicationUI/static/media/logo.5d5d9eef.svg",
   "static/css/main.4dc98957.chunk.css.map": "/EmployeeApplicationUI/static/css/main.4dc98957.chunk.css.map",
   "index.html": "/EmployeeApplicationUI/index.html",
-  "precache-manifest.70c6ebaff9fc48061cc7461ba6bc54c6.js": "/EmployeeApplicationUI/precache-manifest.70c6ebaff9fc48061cc7461ba6bc54c6.js",
+  "precache-manifest.47e992b3e96406c6129c43bc7766f016.js": "/EmployeeApplicationUI/precache-manifest.47e992b3e96406c6129c43bc7766f016.js",
   "service-worker.js": "/EmployeeApplicationUI/service-worker.js"
 }
