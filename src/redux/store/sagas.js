@@ -299,7 +299,7 @@ function* listProjects(action) {
   console.log("Get Action->" + JSON.stringify(action));
 
   const reqMethod = "GET";
-  const loginUrl = "http://18.222.167.189:5000/get-all-projects";
+  const loginUrl = "https://18.222.167.189:5000/get-all-projects";
 
   const response = yield call(GetDataFromServer, loginUrl, "", "");
 
