@@ -24,7 +24,7 @@ class MTSA extends Component {
         super(props);
 
         this.state = {
-            current: "mail",
+            current: "Manager Approval",
             data: {
                 clientProjectName: "",
                 startDate: "",
@@ -149,18 +149,19 @@ class MTSA extends Component {
                                             Time Sheet
                     </Link>
                                     </Menu.Item>
-                                    <Menu.Item key="Manager Approval">
-                                        <Link to={{ pathname: "/mTSA" }}>
-                                            <Icon type="ordered-list" />
-                                            Manager TimeSheet Approval
-                    </Link>
-                                    </Menu.Item>
                                     <Menu.Item key="project">
                                         <Link to={{ pathname: "/project" }}>
                                             <Icon type="project" />
                                             Project
                     </Link>
                                     </Menu.Item>
+                                    <Menu.Item key="Manager Approval">
+                                        <Link to={{ pathname: "/mTSA" }}>
+                                            <Icon type="ordered-list" />
+                                            Manager TimeSheet Approval
+                    </Link>
+                                    </Menu.Item>
+
                                 </Menu>
                             </Col>
                             <Col xs={2} sm={2} md={2} lg={2} xl={2}>

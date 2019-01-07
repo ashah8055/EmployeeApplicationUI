@@ -154,6 +154,12 @@ class projectDetails extends Component {
                                     <Menu.Item key="project">
                                         <Link to={{ pathname: "/Project" }}><Icon type="project" />Project</Link>
                                     </Menu.Item>
+                                    <Menu.Item key="Manager Approval">
+                                        <Link to={{ pathname: "/mTSA" }}>
+                                            <Icon type="clock-circle" />
+                                            Manager TimeSheet Approval
+                    </Link>
+                                    </Menu.Item>
                                 </Menu>
                             </Col>
                             <Col xs={2} sm={2} md={2} lg={2} xl={2}>
