@@ -192,7 +192,7 @@ class MTSA extends Component {
                                         renderItem={item => (
                                             <List.Item>
                                                 <Card onClick={this.onList} value={item.projectId}>
-                                                    <Badge count={item.listOfEmployees.length} />
+                                                    {/* <Badge count={item.listOfEmployees.length} /> */}
                                                     <b>
                                                         {"Project Name: "}
                                                         {item.clientProjectName}
@@ -221,10 +221,10 @@ class MTSA extends Component {
                                             <List.Item>
                                                 <Card onClick={this.onDetails} value={data}>
                                                     {"Employee ID: "}
-                                                    <Badge count={item2.listOfEmployees[0].employeeId} />
+                                                    {/* <Badge count={item2.listOfEmployees[0].employeeId} /> */}
                                                     <br />
                                                     {"Employee Name: "}
-                                                    {item2.listOfEmployees[0].employeeName}
+                                                    {/* {item2.listOfEmployees[0].employeeName} */}
                                                     <br />
                                                     {"Timesheet Date: "}
                                                     <Moment format="MM/DD/YYYY">
@@ -251,15 +251,15 @@ class MTSA extends Component {
                                             <List.Item>
                                                 <Card>
                                                     {"Employee Id: "}
-                                                    <Badge count={item2.listOfEmployees[0].employeeId} />
+                                                    {/* <Badge count={item2.listOfEmployees[0].employeeId} /> */}
                                                     <br />
                                                     {"Project Id: "}
-                                                    <Badge count={item2.listOfEmployees[0].projectId} />
+                                                    {/* <Badge count={item2.listOfEmployees[0].projectId} /> */}
                                                     <br />
                                                     {"Client Id: "}
-                                                    <Badge
-                                                        count={item2.listOfEmployees[0].clientProjectId}
-                                                    />
+                                                    {/* <Badge */}
+                                                        {/* count={item2.listOfEmployees[0].clientProjectId} */}
+                                                    {/* /> */}
                                                     <br />
                                                     {"Vendor Id: "}
                                                     {item2.vendorId}
